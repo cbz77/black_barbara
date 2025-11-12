@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gothic Panorama Simulator</title>
-    <!-- Load Font Awesome for navigation icons -->
+    <title>Záhada Černé Barbory</title>
+    <!-- Načtení Font Awesome pro ikony -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* New Gothic/Victorian Font */
+        /* Nový Gotický/Viktoriánský Font */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 
         body {
@@ -17,9 +17,9 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            /* Dark, aged background */
+            /* Tmavé, staré pozadí */
             background-color: #1a1510;
-            /* Aged paper/parchment text color */
+            /* Starý papír/pergamen barva textu */
             color: #d0c6ac;
             font-family: 'Cinzel', serif;
             padding: 20px;
@@ -29,27 +29,26 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            /* Fixed width for coordinate stability */
+            /* Pevná šířka pro konzistenci koordinátů */
             width: 800px;
             max-width: 800px; 
         }
         
         h1 {
-            color: #aa9c78; /* Slightly brighter aged color for title */
+            color: #aa9c78; /* Mírně jasnější stará barva pro titul */
             text-shadow: 0 0 5px rgba(170, 156, 120, 0.5);
             font-weight: 700;
             text-align: center;
         }
 
         #viewport {
-            /* Fixed dimensions */
+            /* Pevné rozměry 800x600 */
             width: 800px;
             height: 600px;
             background-size: cover;
             background-position: center;
-            /* Dark, heavy frame border */
+            /* Tmavý, těžký rám */
             border: 8px solid #3d3229;
-            /* Subtle, aged shadow */
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(208, 198, 172, 0.1);
             border-radius: 5px; 
             position: relative;
@@ -60,17 +59,16 @@
             overflow: hidden;
         }
 
-        /* --- HOTSPOT STYLES --- */
+        /* --- STYLY AKTIVNÍCH MÍST (HOTSPOT) --- */
         .hotspot {
             position: absolute;
-            width: 30px; /* Size of the clickable area */
-            height: 30px;
-            /* Centering the hotspot on the x, y coordinate */
+            width: 35px; /* Větší pro snadnější kliknutí */
+            height: 35px;
             transform: translate(-50%, -50%); 
             cursor: pointer;
-            z-index: 6; /* Above the loading overlay, below labels */
+            z-index: 6; 
             border-radius: 50%;
-            background: rgba(170, 68, 68, 0.4); /* Faint reddish glow */
+            background: rgba(170, 68, 68, 0.4); 
             border: 2px solid #aa4444; 
             transition: background 0.2s, box-shadow 0.2s;
         }
@@ -79,10 +77,10 @@
             background: rgba(170, 68, 68, 0.7);
             box-shadow: 0 0 15px #aa4444;
         }
-        /* --- END HOTSPOT STYLES --- */
+        /* --- KONEC STYLŮ HOTSPOTŮ --- */
 
 
-        /* --- MODAL (POPUP) STYLES --- */
+        /* --- STYLY MODALU (VYSKAKOVACÍ OKNO) --- */
         .modal-backdrop {
             position: fixed;
             top: 0;
@@ -90,7 +88,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
-            display: none; /* Hidden by default */
+            display: none; /* Skryté ve výchozím stavu */
             align-items: center;
             justify-content: center;
             z-index: 100;
@@ -101,7 +99,7 @@
             border: 5px solid #3d3229;
             color: #d0c6ac;
             padding: 30px;
-            width: 400px;
+            width: 450px;
             max-width: 90%;
             box-shadow: 0 0 50px rgba(170, 68, 68, 0.5);
             border-radius: 5px;
@@ -133,10 +131,10 @@
             from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
         }
-        /* --- END MODAL STYLES --- */
+        /* --- KONEC STYLŮ MODALU --- */
 
 
-        /* --- EXISTING STYLES (THEMED) --- */
+        /* --- OSTATNÍ STYLY --- */
         .loading-overlay {
             position: absolute;
             top: 0;
@@ -236,104 +234,137 @@
 <body>
 
     <div class="game-container">
-        <h1>The Shadowed Estate</h1>
+        <h1>Záhada Černé Barbory</h1>
         <div id="viewport">
-            <div class="loading-overlay" id="loading-overlay">A chill runs down your spine...</div>
+            <div class="loading-overlay" id="loading-overlay">Čekání na osud...</div>
             <div class="direction-label" id="direction-label"></div>
             <div class="area-label" id="area-label"></div>
         </div>
 
         <div class="controls-row">
             <button class="control-button" id="turn-left" onclick="turnLeft()">
-                <i class="fas fa-hand-point-left"></i> Turn Left
+                <i class="fas fa-hand-point-left"></i> Otočit vlevo
             </button>
             <button class="control-button" id="move-forward" onclick="moveForward()">
-                <i class="fas fa-feather-alt"></i> Proceed
+                <i class="fas fa-feather-alt"></i> Vpřed
             </button>
             <button class="control-button" id="turn-right" onclick="turnRight()">
-                Turn Right <i class="fas fa-hand-point-right"></i>
+                Otočit vpravo <i class="fas fa-hand-point-right"></i>
             </button>
         </div>
-        <p class="instruction-text">Turn to survey your surroundings, or proceed through the gloom if a path beckons.</p>
+        <p class="instruction-text">Rozhlédněte se, nebo pokračujte temnou pěšinou, pokud vás volá.</p>
     </div>
 
-    <!-- Item Popup Modal Structure -->
+    <!-- Struktura vyskakovacího okna (Modalu) -->
     <div class="modal-backdrop" id="modal-backdrop">
         <div id="item-popup">
             <p id="popup-text"></p>
-            <button id="close-popup" onclick="hidePopup()">Close</button>
+            <button id="close-popup" onclick="hidePopup()">Zavřít</button>
         </div>
     </div>
-    <!-- End Modal -->
+    <!-- Konec Modalu -->
 
     <script>
-        // --- GAME MAP AND STATE ---
+        // --- MAPA HRY A STAV ---
         
-        // Viewport size for coordinate consistency (800x600)
+        // Pevné rozměry pohledu
         const VIEWPORT_WIDTH = 800;
         const VIEWPORT_HEIGHT = 600;
 
-        // The world map: now includes 'items' array for interactive hotspots
+        // Mapa hry s novými lokacemi a hotspoty pro Záhadu Černé Barbory
         const MAP = {
-            "ForestClearing": {
-                name: "Misty Moor Entrance",
+            "UpatíŠtandlu": {
+                name: "Úpatí Štandlu",
                 N: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Path+to+the+Estate`, 
-                    forward: "OldCabin",
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Cesta+nahoru+na+Standl`, 
+                    forward: "ŠtandlVrchol",
                     items: [
-                        // x, y are pixel coordinates (0-800, 0-600)
-                        { x: 400, y: 550, text: "A faded footprint is visible in the mud, heading north." },
-                        { x: 150, y: 300, text: "A patch of thorny, withered roses. They hold no scent." }
+                        // Hotspot 1: Starý patník
+                        { x: 380, y: 520, text: "Patník je starý a ošlehaný. Rytina naznačuje 'Cestu Hříšníků' – starou stezku k popravišti." },
+                        // Hotspot 2: Zrezivělý kříž
+                        { x: 150, y: 400, text: "Kříž je pokřivený a bez nápisu. Místní věří, že jej postavili, aby chránil před Barbořiným vlivem." }
+                    ]
+                },
+                E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Hustý+les+a+mlha` },
+                S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Neznačená+cesta+dolů` },
+                W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Bažinatá+místa` },
+            },
+            "ŠtandlVrchol": {
+                name: "Štandl Vrchol (Popraviště)",
+                N: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Vyhlídka+na+krajinu`, 
+                    items: [
+                        // Hotspot 1: Podezřelý balvan
+                        { x: 450, y: 350, text: "Obrovský kámen. Pod ním se zdá být čerstvě rozryto. Možná tu někdo něco hledal... nebo pohřbil. Pod ním je ve vlhké zemině vidět otisk nevelké, staré PEČETI." },
+                        // Hotspot 2: Větev s provazem
+                        { x: 600, y: 200, text: "Zbytek hrubého lana. Barbořina kletba se váže na krev a provaz." }
                     ]
                 },
                 E: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Twisted+Trees+East`,
-                    items: [
-                         { x: 550, y: 400, text: "The trees here are too dense to pass." }
-                    ]
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Pohled+na+Místek`,
+                    forward: "MístekNáměstí" 
                 },
-                S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Cemetery+View+South` },
-                W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Boggy+Ground+West` },
-            },
-            "OldCabin": {
-                name: "The Ruined Lodge",
-                N: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Mansion+Gates+North`, 
-                    forward: "LakeView" ,
-                    items: [
-                        { x: 400, y: 450, text: "The iron gate is slightly ajar. You feel a pull towards it." }
-                    ]
-                },
-                E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Tarnished+Statue+East` },
                 S: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Road+Back+South`, 
-                    forward: "ForestClearing",
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Cesta+zpět+k+úpatí`, 
+                    forward: "UpatíŠtandlu"
+                },
+                W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Zbytky+kamenného+základu` },
+            },
+            "MístekNáměstí": {
+                name: "Místek Náměstí",
+                N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Budovy+a+radnice` },
+                E: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Most+přes+Ostravici`, 
+                    forward: "FrýdeckýZámek",
                     items: [
-                        { x: 700, y: 500, text: "The way back looks less menacing than the way forward." }
+                        // Hotspot 1: Stará kašna
+                        { x: 550, y: 480, text: "Voda je ledová. Na okraji kašny je sotva viditelná rytina symbolu, který připomíná TROJLÍSTEK." }
                     ]
+                },
+                S: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Směr+na+jižní+stranu` 
                 },
                 W: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Shattered+Windows+West`,
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Směr+zpět+ke+Štandlu`,
+                    forward: "ŠtandlVrchol",
                     items: [
-                        { x: 250, y: 350, text: "Shattered glass litters the ground. It is too dangerous to climb through." }
+                        // Hotspot 2: Pamětní deska
+                        { x: 200, y: 450, text: "Deska zmiňuje Barboru jako 'ženu zatvrzelou, proklínající rodinné jmění'. Pečeť a rodinné stříbro jsou klíčem k osvobození její duše." }
                     ]
                 },
             },
-            "LakeView": {
-                name: "The Grand Hallway",
-                N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Dark+Corridor+End` },
-                E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Locked+Door+East` },
-                S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Staircase+Down+South`, forward: "OldCabin" },
-                W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Flickering+Candles+West` },
+            "FrýdeckýZámek": {
+                name: "Frýdecký Zámek",
+                N: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Čelní+pohled+na+hrad`,
+                    items: [
+                        // Hotspot 1: Zámecká brána (Zámek)
+                        { x: 400, y: 450, text: "Těžká dřevěná brána. Na jedné straně chybí erb, zůstala jen prohlubeň ve tvaru, která vypadá jako OTISK PEČETI. Bez ní se dovnitř nedostanete." }
+                    ]
+                },
+                E: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Východní+křídlo+zamku`,
+                    items: [
+                        // Hotspot 2: Prasklina ve zdi (Hádanka)
+                        { x: 100, y: 350, text: "V prasklině zdi je malá SCHRÁNKA s třemi prohlubněmi ve tvaru listu. Mechanismus uvnitř je blokován." }
+                    ]
+                },
+                S: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Zámecký+park`, 
+                },
+                W: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Cesta+zpět+k+mostu`, 
+                    forward: "MístekNáměstí" 
+                },
             }
         };
 
-        const DIRECTIONS = ['N', 'E', 'S', 'W']; // 0=N, 1=E, 2=S, 3=W
+        const DIRECTIONS = ['N', 'E', 'S', 'W']; // 0=S, 1=V, 2=J, 3=Z
 
-        let currentArea = "ForestClearing";
-        let currentDirectionIndex = 0; // Start facing North (Index 0)
+        let currentArea = "UpatíŠtandlu";
+        let currentDirectionIndex = 0; // Začínáme směrem na Sever (N)
 
-        // --- DOM ELEMENTS ---
+        // --- ELEMENTY DOM ---
         const viewport = document.getElementById('viewport');
         const forwardButton = document.getElementById('move-forward');
         const loadingOverlay = document.getElementById('loading-overlay');
@@ -342,11 +373,11 @@
         const modalBackdrop = document.getElementById('modal-backdrop');
         const popupText = document.getElementById('popup-text');
 
-        // --- MODAL FUNCTIONS ---
+        // --- FUNKCE PRO MODAL ---
 
         /**
-         * Shows the modal popup with the provided text.
-         * @param {string} text The text to display in the modal.
+         * Zobrazí vyskakovací okno s daným textem.
+         * @param {string} text Text k zobrazení.
          */
         function showPopup(text) {
             popupText.textContent = text;
@@ -354,22 +385,22 @@
         }
 
         /**
-         * Hides the modal popup.
+         * Skryje vyskakovací okno.
          */
         function hidePopup() {
             modalBackdrop.style.display = 'none';
         }
 
-        // Expose hidePopup globally for the Close button
+        // Zpřístupnění hidePopup globálně pro tlačítko Zavřít
         window.hidePopup = hidePopup;
         
-        // --- HOTSPOT RENDERING ---
+        // --- VYKRESLENÍ HOTSPOTŮ ---
 
         /**
-         * Renders clickable hotspots defined for the current view.
+         * Vykreslí klikatelné hotspoty definované pro aktuální pohled.
          */
         function renderHotspots() {
-            // 1. Clear any previous hotspots (Hotspots are children of viewport, not including labels/overlay)
+            // 1. Odstranění předchozích hotspotů
             const removableElements = Array.from(viewport.children).filter(el => 
                 !el.classList.contains('loading-overlay') && 
                 !el.classList.contains('direction-label') &&
@@ -384,72 +415,72 @@
                 viewData.items.forEach(item => {
                     const hotspot = document.createElement('div');
                     hotspot.className = 'hotspot';
+                    // Nastavení pozice na základě pevných koordinátů (800x600)
                     hotspot.style.left = `${item.x}px`;
                     hotspot.style.top = `${item.y}px`;
-                    hotspot.title = "Inspect Item"; // Tooltip
+                    hotspot.title = "Prozkoumat"; // Tooltip
                     hotspot.onclick = () => showPopup(item.text);
                     viewport.appendChild(hotspot);
                 });
             }
         }
 
-        // --- CORE FUNCTIONS ---
+        // --- HLAVNÍ FUNKCE ---
 
         /**
-         * Updates the visual view based on the current area and direction.
+         * Aktualizuje vizuální pohled na základě aktuální oblasti a směru.
          */
         function updateView() {
             const currentDir = DIRECTIONS[currentDirectionIndex];
             const areaData = MAP[currentArea];
             const viewData = areaData[currentDir];
 
-            // 1. Show Loading Indicator (themed text)
+            // 1. Zobrazení indikátoru načítání
             loadingOverlay.style.display = 'flex';
             viewport.style.backgroundImage = 'none';
 
-            // 2. Preload Image
+            // 2. Přednačtení obrázku
             const img = new Image();
             img.onload = () => {
-                // Once loaded, hide indicator and set background
+                // Po načtení schovej indikátor a nastav pozadí
                 viewport.style.backgroundImage = `url('${viewData.img}')`;
                 loadingOverlay.style.display = 'none';
                 
-                // 3. Update UI Labels
-                directionLabel.textContent = `Facing: ${currentDir}`;
-                areaLabel.textContent = `Area: ${areaData.name}`;
+                // 3. Aktualizace popisků
+                directionLabel.textContent = `Směr: ${currentDir}`;
+                areaLabel.textContent = `Oblast: ${areaData.name}`;
 
-                // 4. Update Forward Button State
+                // 4. Aktualizace stavu tlačítka Vpřed
                 if (viewData.forward) {
                     forwardButton.disabled = false;
-                    forwardButton.title = `Proceed to ${MAP[viewData.forward].name}`;
-                    forwardButton.textContent = 'Proceed';
+                    forwardButton.title = `Pokračovat do ${MAP[viewData.forward].name}`;
+                    forwardButton.textContent = 'Vpřed';
                 } else {
                     forwardButton.disabled = true;
-                    forwardButton.title = "No path forward here. Retreat.";
-                    forwardButton.textContent = 'Blocked';
+                    forwardButton.title = "Zde není žádná cesta. Musíte se otočit.";
+                    forwardButton.textContent = 'Blokováno';
                 }
 
-                // 5. Render Hotspots for the new view
+                // 5. Vykreslení Hotspotů
                 renderHotspots();
             };
 
             img.onerror = () => {
-                // Fallback in case the placeholder URL fails
-                viewport.style.backgroundImage = `url('https://placehold.co/800x600/600000/ffffff?text=HORROR+ERROR')`;
+                // Záložní řešení pro chybu načítání
+                viewport.style.backgroundImage = `url('https://placehold.co/800x600/600000/ffffff?text=CHYBA+NAČÍTÁNÍ+OBRÁZKU')`;
                 loadingOverlay.style.display = 'none';
-                directionLabel.textContent = `Facing: ${currentDir}`;
-                areaLabel.textContent = `Area: ${areaData.name} (The darkness consumes the view!)`;
+                directionLabel.textContent = `Směr: ${currentDir}`;
+                areaLabel.textContent = `Oblast: ${areaData.name} (Temnota pohltila obraz!)`;
                 forwardButton.disabled = true;
-                // Still try to render hotspots even on error, just in case
                 renderHotspots(); 
             };
 
-            // Set the source to start loading
+            // Spuštění načítání obrázku
             img.src = viewData.img;
         }
 
         /**
-         * Turns the player 90 degrees to the left.
+         * Otočí hráče o 90 stupňů doleva.
          */
         function turnLeft() {
             currentDirectionIndex = (currentDirectionIndex - 1 + DIRECTIONS.length) % DIRECTIONS.length;
@@ -457,7 +488,7 @@
         }
 
         /**
-         * Turns the player 90 degrees to the right.
+         * Otočí hráče o 90 stupňů doprava.
          */
         function turnRight() {
             currentDirectionIndex = (currentDirectionIndex + 1) % DIRECTIONS.length;
@@ -465,7 +496,7 @@
         }
 
         /**
-         * Attempts to move the player forward to a new area.
+         * Pokusí se přesunout hráče do nové oblasti.
          */
         function moveForward() {
             const currentDir = DIRECTIONS[currentDirectionIndex];
@@ -475,17 +506,17 @@
                 currentArea = viewData.forward;
                 updateView();
             } else {
-                console.log("Cannot move forward from this location. Blocked by a spectral barrier.");
-                forwardButton.title = "Blocked! The way is sealed.";
+                console.log("Nelze pokračovat vpřed. Cesta je zapečetěna.");
+                forwardButton.title = "Blokováno! Cesta je zapečetěna.";
             }
         }
 
-        // --- INITIALIZATION ---
+        // --- INICIALIZACE ---
         window.onload = function() {
             updateView();
         };
 
-        // Expose functions globally for HTML buttons
+        // Zpřístupnění funkcí pro HTML tlačítka
         window.turnLeft = turnLeft;
         window.turnRight = turnRight;
         window.moveForward = moveForward;
