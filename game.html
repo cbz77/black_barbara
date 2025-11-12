@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gothic Panorama Simulator</title>
+    <!-- Load Font Awesome for navigation icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* New Gothic/Victorian Font */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            /* Dark, aged background */
+            background-color: #1a1510;
+            /* Aged paper/parchment text color */
+            color: #d0c6ac;
+            font-family: 'Cinzel', serif;
+            padding: 20px;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            /* Fixed width for coordinate stability */
+            width: 800px;
+            max-width: 800px; 
+        }
+        
+        h1 {
+            color: #aa9c78; /* Slightly brighter aged color for title */
+            text-shadow: 0 0 5px rgba(170, 156, 120, 0.5);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        #viewport {
+            /* Fixed dimensions */
+            width: 800px;
+            height: 600px;
+            background-size: cover;
+            background-position: center;
+            /* Dark, heavy frame border */
+            border: 8px solid #3d3229;
+            /* Subtle, aged shadow */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(208, 198, 172, 0.1);
+            border-radius: 5px; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-image 0.5s ease-in-out; 
+            overflow: hidden;
+        }
+
+        /* --- HOTSPOT STYLES --- */
+        .hotspot {
+            position: absolute;
+            width: 30px; /* Size of the clickable area */
+            height: 30px;
+            /* Centering the hotspot on the x, y coordinate */
+            transform: translate(-50%, -50%); 
+            cursor: pointer;
+            z-index: 6; /* Above the loading overlay, below labels */
+            border-radius: 50%;
+            background: rgba(170, 68, 68, 0.4); /* Faint reddish glow */
+            border: 2px solid #aa4444; 
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        
+        .hotspot:hover {
+            background: rgba(170, 68, 68, 0.7);
+            box-shadow: 0 0 15px #aa4444;
+        }
+        /* --- END HOTSPOT STYLES --- */
+
+
+        /* --- MODAL (POPUP) STYLES --- */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        #item-popup {
+            background-color: #1a1510;
+            border: 5px solid #3d3229;
+            color: #d0c6ac;
+            padding: 30px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 0 50px rgba(170, 68, 68, 0.5);
+            border-radius: 5px;
+            text-align: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        #popup-text {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        #close-popup {
+            background-color: #701c1c;
+            color: #d0c6ac;
+            border: 1px solid #aa4444;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-family: 'Cinzel', serif;
+            transition: background-color 0.2s;
+        }
+
+        #close-popup:hover {
+            background-color: #902020;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        /* --- END MODAL STYLES --- */
+
+
+        /* --- EXISTING STYLES (THEMED) --- */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 25, 20, 0.8);
+            color: #aa4444; 
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            z-index: 10;
+            border-radius: 5px;
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .control-button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border: 2px solid #5a4d3f; 
+            border-radius: 3px; 
+            transition: all 0.2s ease;
+            text-transform: none; 
+            font-weight: 400;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            position: relative;
+            font-family: 'Cinzel', serif;
+        }
+
+        .control-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(170, 68, 68, 0.5);
+        }
+
+        .control-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        #turn-left, #turn-right {
+            background: linear-gradient(145deg, #4d3e2d, #30261b);
+            color: #d0c6ac;
+        }
+
+        #move-forward {
+            background: linear-gradient(145deg, #701c1c, #4a1313);
+            color: #d0c6ac;
+            border: 2px solid #aa4444;
+        }
+
+        #move-forward:disabled {
+            background: #25201a;
+            border: 2px solid #3d3229;
+            color: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .direction-label, .area-label {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 7px 12px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: #aa9c78; 
+            z-index: 5;
+            border: 1px solid #3d3229;
+        }
+        
+        .direction-label {
+            top: 10px;
+            left: 10px;
+        }
+
+        .area-label {
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .instruction-text {
+            margin-top: 10px;
+            font-size: 1em;
+            color: #aa9c78;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>The Shadowed Estate</h1>
+        <div id="viewport">
+            <div class="loading-overlay" id="loading-overlay">A chill runs down your spine...</div>
+            <div class="direction-label" id="direction-label"></div>
+            <div class="area-label" id="area-label"></div>
+        </div>
+
+        <div class="controls-row">
+            <button class="control-button" id="turn-left" onclick="turnLeft()">
+                <i class="fas fa-hand-point-left"></i> Turn Left
+            </button>
+            <button class="control-button" id="move-forward" onclick="moveForward()">
+                <i class="fas fa-feather-alt"></i> Proceed
+            </button>
+            <button class="control-button" id="turn-right" onclick="turnRight()">
+                Turn Right <i class="fas fa-hand-point-right"></i>
+            </button>
+        </div>
+        <p class="instruction-text">Turn to survey your surroundings, or proceed through the gloom if a path beckons.</p>
+    </div>
+
+    <!-- Item Popup Modal Structure -->
+    <div class="modal-backdrop" id="modal-backdrop">
+        <div id="item-popup">
+            <p id="popup-text"></p>
+            <button id="close-popup" onclick="hidePopup()">Close</button>
+        </div>
+    </div>
+    <!-- End Modal -->
+
+    <script>
+        // --- GAME MAP AND STATE ---
+        
+        // Viewport size for coordinate consistency (800x600)
+        const VIEWPORT_WIDTH = 800;
+        const VIEWPORT_HEIGHT = 600;
+
+        // The world map: now includes 'items' array for interactive hotspots
+        const MAP = {
+            "ForestClearing": {
+                name: "Misty Moor Entrance",
+                N: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Path+to+the+Estate`, 
+                    forward: "OldCabin",
+                    items: [
+                        // x, y are pixel coordinates (0-800, 0-600)
+                        { x: 400, y: 550, text: "A faded footprint is visible in the mud, heading north." },
+                        { x: 150, y: 300, text: "A patch of thorny, withered roses. They hold no scent." }
+                    ]
+                },
+                E: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Twisted+Trees+East`,
+                    items: [
+                         { x: 550, y: 400, text: "The trees here are too dense to pass." }
+                    ]
+                },
+                S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Cemetery+View+South` },
+                W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Boggy+Ground+West` },
+            },
+            "OldCabin": {
+                name: "The Ruined Lodge",
+                N: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Mansion+Gates+North`, 
+                    forward: "LakeView" ,
+                    items: [
+                        { x: 400, y: 450, text: "The iron gate is slightly ajar. You feel a pull towards it." }
+                    ]
+                },
+                E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Tarnished+Statue+East` },
+                S: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Road+Back+South`, 
+                    forward: "ForestClearing",
+                    items: [
+                        { x: 700, y: 500, text: "The way back looks less menacing than the way forward." }
+                    ]
+                },
+                W: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Shattered+Windows+West`,
+                    items: [
+                        { x: 250, y: 350, text: "Shattered glass litters the ground. It is too dangerous to climb through." }
+                    ]
+                },
+            },
+            "LakeView": {
+                name: "The Grand Hallway",
+                N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Dark+Corridor+End` },
+                E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Locked+Door+East` },
+                S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Staircase+Down+South`, forward: "OldCabin" },
+                W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Flickering+Candles+West` },
+            }
+        };
+
+        const DIRECTIONS = ['N', 'E', 'S', 'W']; // 0=N, 1=E, 2=S, 3=W
+
+        let currentArea = "ForestClearing";
+        let currentDirectionIndex = 0; // Start facing North (Index 0)
+
+        // --- DOM ELEMENTS ---
+        const viewport = document.getElementById('viewport');
+        const forwardButton = document.getElementById('move-forward');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const directionLabel = document.getElementById('direction-label');
+        const areaLabel = document.getElementById('area-label');
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const popupText = document.getElementById('popup-text');
+
+        // --- MODAL FUNCTIONS ---
+
+        /**
+         * Shows the modal popup with the provided text.
+         * @param {string} text The text to display in the modal.
+         */
+        function showPopup(text) {
+            popupText.textContent = text;
+            modalBackdrop.style.display = 'flex';
+        }
+
+        /**
+         * Hides the modal popup.
+         */
+        function hidePopup() {
+            modalBackdrop.style.display = 'none';
+        }
+
+        // Expose hidePopup globally for the Close button
+        window.hidePopup = hidePopup;
+        
+        // --- HOTSPOT RENDERING ---
+
+        /**
+         * Renders clickable hotspots defined for the current view.
+         */
+        function renderHotspots() {
+            // 1. Clear any previous hotspots (Hotspots are children of viewport, not including labels/overlay)
+            const removableElements = Array.from(viewport.children).filter(el => 
+                !el.classList.contains('loading-overlay') && 
+                !el.classList.contains('direction-label') &&
+                !el.classList.contains('area-label')
+            );
+            removableElements.forEach(el => el.remove());
+
+            const currentDir = DIRECTIONS[currentDirectionIndex];
+            const viewData = MAP[currentArea][currentDir];
+
+            if (viewData.items && viewData.items.length > 0) {
+                viewData.items.forEach(item => {
+                    const hotspot = document.createElement('div');
+                    hotspot.className = 'hotspot';
+                    hotspot.style.left = `${item.x}px`;
+                    hotspot.style.top = `${item.y}px`;
+                    hotspot.title = "Inspect Item"; // Tooltip
+                    hotspot.onclick = () => showPopup(item.text);
+                    viewport.appendChild(hotspot);
+                });
+            }
+        }
+
+        // --- CORE FUNCTIONS ---
+
+        /**
+         * Updates the visual view based on the current area and direction.
+         */
+        function updateView() {
+            const currentDir = DIRECTIONS[currentDirectionIndex];
+            const areaData = MAP[currentArea];
+            const viewData = areaData[currentDir];
+
+            // 1. Show Loading Indicator (themed text)
+            loadingOverlay.style.display = 'flex';
+            viewport.style.backgroundImage = 'none';
+
+            // 2. Preload Image
+            const img = new Image();
+            img.onload = () => {
+                // Once loaded, hide indicator and set background
+                viewport.style.backgroundImage = `url('${viewData.img}')`;
+                loadingOverlay.style.display = 'none';
+                
+                // 3. Update UI Labels
+                directionLabel.textContent = `Facing: ${currentDir}`;
+                areaLabel.textContent = `Area: ${areaData.name}`;
+
+                // 4. Update Forward Button State
+                if (viewData.forward) {
+                    forwardButton.disabled = false;
+                    forwardButton.title = `Proceed to ${MAP[viewData.forward].name}`;
+                    forwardButton.textContent = 'Proceed';
+                } else {
+                    forwardButton.disabled = true;
+                    forwardButton.title = "No path forward here. Retreat.";
+                    forwardButton.textContent = 'Blocked';
+                }
+
+                // 5. Render Hotspots for the new view
+                renderHotspots();
+            };
+
+            img.onerror = () => {
+                // Fallback in case the placeholder URL fails
+                viewport.style.backgroundImage = `url('https://placehold.co/800x600/600000/ffffff?text=HORROR+ERROR')`;
+                loadingOverlay.style.display = 'none';
+                directionLabel.textContent = `Facing: ${currentDir}`;
+                areaLabel.textContent = `Area: ${areaData.name} (The darkness consumes the view!)`;
+                forwardButton.disabled = true;
+                // Still try to render hotspots even on error, just in case
+                renderHotspots(); 
+            };
+
+            // Set the source to start loading
+            img.src = viewData.img;
+        }
+
+        /**
+         * Turns the player 90 degrees to the left.
+         */
+        function turnLeft() {
+            currentDirectionIndex = (currentDirectionIndex - 1 + DIRECTIONS.length) % DIRECTIONS.length;
+            updateView();
+        }
+
+        /**
+         * Turns the player 90 degrees to the right.
+         */
+        function turnRight() {
+            currentDirectionIndex = (currentDirectionIndex + 1) % DIRECTIONS.length;
+            updateView();
+        }
+
+        /**
+         * Attempts to move the player forward to a new area.
+         */
+        function moveForward() {
+            const currentDir = DIRECTIONS[currentDirectionIndex];
+            const viewData = MAP[currentArea][currentDir];
+
+            if (viewData.forward) {
+                currentArea = viewData.forward;
+                updateView();
+            } else {
+                console.log("Cannot move forward from this location. Blocked by a spectral barrier.");
+                forwardButton.title = "Blocked! The way is sealed.";
+            }
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            updateView();
+        };
+
+        // Expose functions globally for HTML buttons
+        window.turnLeft = turnLeft;
+        window.turnRight = turnRight;
+        window.moveForward = moveForward;
+
+    </script>
+</body>
+</html>
