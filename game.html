@@ -70,12 +70,15 @@
             border-radius: 50%;
             background: rgba(170, 68, 68, 0.4); 
             border: 2px solid #aa4444; 
-            transition: background 0.2s, box-shadow 0.2s;
+            transition: background 0.2s, box-shadow 0.2s, opacity 0.2s;
+            /* opacity: 0; */
         }
         
         .hotspot:hover {
             background: rgba(170, 68, 68, 0.7);
             box-shadow: 0 0 15px #aa4444;
+            opacity: 1;
+            cursor: pointer;
         }
         /* --- KONEC STYLŮ HOTSPOTŮ --- */
 
@@ -273,10 +276,10 @@
 
         // Mapa hry s novými lokacemi a hotspoty pro Záhadu Černé Barbory
         const MAP = {
-            "UpatíŠtandlu": {
+            "upati_standlu": {
                 name: "Úpatí Štandlu",
                 N: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Cesta+nahoru+na+Standl`, 
+                    img: `../assets/bgr/bgr_test1.png`, 
                     forward: "ŠtandlVrchol",
                     items: [
                         // Hotspot 1: Starý patník
@@ -306,7 +309,7 @@
                 },
                 S: { 
                     img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Cesta+zpět+k+úpatí`, 
-                    forward: "UpatíŠtandlu"
+                    forward: "upati_standlu"
                 },
                 W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Zbytky+kamenného+základu` },
             },
@@ -361,7 +364,7 @@
 
         const DIRECTIONS = ['N', 'E', 'S', 'W']; // 0=S, 1=V, 2=J, 3=Z
 
-        let currentArea = "UpatíŠtandlu";
+        let currentArea = "upati_standlu";
         let currentDirectionIndex = 0; // Začínáme směrem na Sever (N)
 
         // --- ELEMENTY DOM ---
