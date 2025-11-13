@@ -8,3 +8,36 @@ potom v kamenném erbu bude Symbol 1 = místo hrobu atd.
 
 
 potom a to bude, tak z hádanky smazat ty místa a nechat jen Symbol 1, Symbol 2 atd.
+
+
+místo toho, e se budou pøidávat do inventáøe pøímo "rytina, list,... atd. tak se vdy pøidá fotografie toho symbolu
+
+a symboly budou vypadat jak v poslu smrti, jen na nich bude - klíè, list, køí, peèe
+
+    - a vdy v popisu bude: "tajemnı symbol, nalezenı ..., pøipomíná mi ... / vypadá jako ...
+
+    - klíè z hrobu bude u hrobu na kameni
+
+    - list na kašnì
+
+    - køí na náhrobku
+
+    - peèe na zámku
+
+
+
+    vytvoøit nové místa
+
+        - vrchol štandlu - v nìjakém smìru bude cedule se studnou
+
+                        - v jiném smìru bude dolù ze štandlu
+
+
+        - cedule - interaktivní bod na ceduli a na studnu, na ceduli bude mapa - získat do inventáøe
+
+        - dolù ze štandlu bude smìr - cesta do místku - pøes starı mostek (vygenerovat AI)
+                                    - vlevo, vpravo bude cesta
+                                    - zpátky bude zpátky na vrchol štandlu 
+
+
+              
