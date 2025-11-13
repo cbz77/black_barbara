@@ -1,529 +1,536 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Záhada Černé Barbory</title>
-    <!-- Načtení Font Awesome pro ikony -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Nový Gotický/Viktoriánský Font */
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
-
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            /* Tmavé, staré pozadí */
-            background-color: #1a1510;
-            /* Starý papír/pergamen barva textu */
-            color: #d0c6ac;
-            font-family: 'Cinzel', serif;
-            padding: 20px;
-        }
-
-        .game-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            /* Pevná šířka pro konzistenci koordinátů */
-            width: 800px;
-            max-width: 800px; 
-        }
-        
-        h1 {
-            color: #aa9c78; /* Mírně jasnější stará barva pro titul */
-            text-shadow: 0 0 5px rgba(170, 156, 120, 0.5);
-            font-weight: 700;
-            text-align: center;
-        }
-
-        #viewport {
-            /* Pevné rozměry 800x600 */
-            width: 800px;
-            height: 600px;
-            background-size: cover;
-            background-position: center;
-            /* Tmavý, těžký rám */
-            border: 8px solid #3d3229;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(208, 198, 172, 0.1);
-            border-radius: 5px; 
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-image 0.5s ease-in-out; 
-            overflow: hidden;
-        }
-
-        /* --- STYLY AKTIVNÍCH MÍST (HOTSPOT) --- */
-        .hotspot {
-            position: absolute;
-            width: 35px; /* Větší pro snadnější kliknutí */
-            height: 35px;
-            transform: translate(-50%, -50%); 
-            cursor: pointer;
-            z-index: 6; 
-            border-radius: 50%;
-            background: rgba(170, 68, 68, 0.4); 
-            border: 2px solid #aa4444; 
-            transition: background 0.2s, box-shadow 0.2s, opacity 0.2s;
-            /* opacity: 0; */
-        }
-        
-        .hotspot:hover {
-            background: rgba(170, 68, 68, 0.7);
-            box-shadow: 0 0 15px #aa4444;
-            opacity: 1;
-            cursor: pointer;
-        }
-        /* --- KONEC STYLŮ HOTSPOTŮ --- */
-
-
-        /* --- STYLY MODALU (VYSKAKOVACÍ OKNO) --- */
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: none; /* Skryté ve výchozím stavu */
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
-
-        #item-popup {
-            background-color: #1a1510;
-            border: 5px solid #3d3229;
-            color: #d0c6ac;
-            padding: 30px;
-            width: 450px;
-            max-width: 90%;
-            box-shadow: 0 0 50px rgba(170, 68, 68, 0.5);
-            border-radius: 5px;
-            text-align: center;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        #popup-text {
-            margin-bottom: 20px;
-            font-size: 1.1em;
-        }
-        
-        #close-popup {
-            background-color: #701c1c;
-            color: #d0c6ac;
-            border: 1px solid #aa4444;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 3px;
-            font-family: 'Cinzel', serif;
-            transition: background-color 0.2s;
-        }
-
-        #close-popup:hover {
-            background-color: #902020;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        /* --- KONEC STYLŮ MODALU --- */
-
-
-        /* --- OSTATNÍ STYLY --- */
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(30, 25, 20, 0.8);
-            color: #aa4444; 
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 2em;
-            z-index: 10;
-            border-radius: 5px;
-        }
-
-        .controls-row {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            width: 100%;
-        }
-
-        .control-button {
-            padding: 15px 30px;
-            font-size: 1.1em;
-            cursor: pointer;
-            border: 2px solid #5a4d3f; 
-            border-radius: 3px; 
-            transition: all 0.2s ease;
-            text-transform: none; 
-            font-weight: 400;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-            position: relative;
-            font-family: 'Cinzel', serif;
-        }
-
-        .control-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 15px rgba(170, 68, 68, 0.5);
-        }
-
-        .control-button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-        }
-
-        #turn-left, #turn-right {
-            background: linear-gradient(145deg, #4d3e2d, #30261b);
-            color: #d0c6ac;
-        }
-
-        #move-forward {
-            background: linear-gradient(145deg, #701c1c, #4a1313);
-            color: #d0c6ac;
-            border: 2px solid #aa4444;
-        }
-
-        #move-forward:disabled {
-            background: #25201a;
-            border: 2px solid #3d3229;
-            color: #555;
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
-
-        .direction-label, .area-label {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 7px 12px;
-            border-radius: 3px;
-            font-size: 0.9em;
-            color: #aa9c78; 
-            z-index: 5;
-            border: 1px solid #3d3229;
-        }
-        
-        .direction-label {
-            top: 10px;
-            left: 10px;
-        }
-
-        .area-label {
-            bottom: 10px;
-            right: 10px;
-        }
-
-        .instruction-text {
-            margin-top: 10px;
-            font-size: 1em;
-            color: #aa9c78;
-            text-align: center;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Záhada Černé Barbory - S Inventářem</title>
+	<!-- Načtení Font Awesome pro ikony -->
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<style>
+		/* Nový Gotický/Viktoriánský Font */
+		@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+	</style>
 </head>
+
 <body>
 
-    <div class="game-container">
-        <h1>Záhada Černé Barbory</h1>
-        <div id="viewport">
-            <div class="loading-overlay" id="loading-overlay">Čekání na osud...</div>
-            <div class="direction-label" id="direction-label"></div>
-            <div class="area-label" id="area-label"></div>
-        </div>
+	<div class="game-container">
+		<h1>Záhada Černé Barbory</h1>
+		<div id="viewport">
+			<div class="loading-overlay" id="loading-overlay">Čekání na osud...</div>
+			<div class="direction-label" id="direction-label"></div>
+			<div class="area-label" id="area-label"></div>
+		</div>
 
-        <div class="controls-row">
-            <button class="control-button" id="turn-left" onclick="turnLeft()">
-                <i class="fas fa-hand-point-left"></i> Otočit vlevo
-            </button>
-            <button class="control-button" id="move-forward" onclick="moveForward()">
-                <i class="fas fa-feather-alt"></i> Vpřed
-            </button>
-            <button class="control-button" id="turn-right" onclick="turnRight()">
-                Otočit vpravo <i class="fas fa-hand-point-right"></i>
-            </button>
-        </div>
-        <p class="instruction-text">Rozhlédněte se, nebo pokračujte temnou pěšinou, pokud vás volá.</p>
-    </div>
+		<div class="controls-row">
+			<button class="control-button" id="turn-left" onclick="turnLeft()">
+				<i class="fas fa-hand-point-left"></i> Otočit vlevo
+			</button>
+			<button class="control-button" id="move-forward" onclick="moveForward()">
+				<i class="fas fa-feather-alt"></i> Vpřed
+			</button>
+			<button class="control-button" id="turn-right" onclick="turnRight()">
+				Otočit vpravo <i class="fas fa-hand-point-right"></i>
+			</button>
+		</div>
+		<p class="instruction-text">Prozkoumejte své okolí a hledejte stopy. Váš inventář je níže.</p>
 
-    <!-- Struktura vyskakovacího okna (Modalu) -->
-    <div class="modal-backdrop" id="modal-backdrop">
-        <div id="item-popup">
-            <p id="popup-text"></p>
-            <button id="close-popup" onclick="hidePopup()">Zavřít</button>
-        </div>
-    </div>
-    <!-- Konec Modalu -->
+		<!-- Nový Inventář UI -->
+		<div id="inventory-display">
+			<!-- Sem se dynamicky přidávají předměty -->
+		</div>
 
-    <script>
-        // --- MAPA HRY A STAV ---
-        
-        // Pevné rozměry pohledu
-        const VIEWPORT_WIDTH = 800;
-        const VIEWPORT_HEIGHT = 600;
+	</div>
 
-        // Mapa hry s novými lokacemi a hotspoty pro Záhadu Černé Barbory
-        const MAP = {
-            "upati_standlu": {
-                name: "Úpatí Štandlu",
+	<!-- Modaly -->
+	<div class="modal-backdrop" id="text-modal-backdrop">
+		<div id="item-popup" class="popup-window">
+			<p id="popup-text"></p>
+			<button class="control-button" id="close-popup" onclick="hidePopup('text-modal-backdrop')">Zavřít</button>
+		</div>
+	</div>
+
+	<div class="modal-backdrop" id="puzzle-modal-backdrop">
+		<div id="input-puzzle-modal" class="popup-window">
+			<h2>Hádanka Erbové Pečetě</h2>
+			<p>Zadejte klíčová slova v pořadí, v jakém byla nalezena, abyste odemkli průchod.</p>
+			<div class="puzzle-input-group">
+				<label for="symbol1">Symbol 1 (Pod Štandlem - Hrob):</label>
+				<input type="text" id="symbol1" maxlength="5">
+
+				<label for="symbol2">Symbol 2 (Místecká Kašna):</label>
+				<input type="text" id="symbol2" maxlength="5">
+
+				<label for="symbol3">Symbol 3 (Kostel Sv. Jošta):</label>
+				<input type="text" id="symbol3" maxlength="4">
+
+				<label for="symbol4">Symbol 4 (Frýdecký Zámek):</label>
+				<input type="text" id="symbol4" maxlength="6">
+			</div>
+			<button id="solve-puzzle-button" onclick="solvePuzzle()">Odemknout</button>
+		</div>
+	</div>
+	<!-- Konec Modalů -->
+
+	<script>
+		// --- MAPA HRY A STAV ---
+
+		const VIEWPORT_WIDTH = 800;
+		const VIEWPORT_HEIGHT = 600;
+
+		// Definice předmětů v inventáři pro snazší správu (id, jméno, ikona)
+		const INVENTORY_ITEMS = {
+			'papirek_cerny_klic': { name: 'Papírek', icon: 'fa-scroll', tooltip: 'Papírek s nákresem černého klíče.' },
+			'cerny_klic': { name: 'Klíč', icon: 'fa-key', tooltip: 'Starý, černý klíč, kdysi nalezený v hrobě pod Štandlem.' },
+			'dubovy_list': { name: 'Rytina', icon: 'fa-leaf', tooltip: 'Rytina dubového listu, nalezená na kašně.' },
+			'kriz_z_hrobu': { name: 'Kříž', icon: 'fa-cross', tooltip: 'Kříž z náhrobku u kostela sv. Jošta.' },
+			'slechticka_pecet': { name: 'Pečeť', icon: 'fa-stamp', tooltip: 'Šlechtická pečeť, byla vyryta na zámecké věži.' }
+		};
+
+        const ikona_stopa = '<br><br><i class="fa-solid fa-puzzle-piece color-red"></i> ';
+
+		const MAP = {
+			upati_standlu: {
+				name: "Úpatí Štandlu",
+				N: {
+                    img: `../assets/bgr/bgr_test3.png`, forward: "vrchol_standlu", 
+                    items: [
+                        { x: 380, y: 520, text: "Cesta pokračuje nahoru k vrcholu. Je strmá a plná stínů.", type: 'text' },
+                    ]
+                },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina`, forward: "lesni_pesina", items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cesta+se+závorou`, forward: "cesta_se_zavorou", items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cesta+zpět+domů`, items: [] },
+			},
+			lesni_pesina: {
+				name: "Lesní pěšina",
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=kamenný+erb`, forward: "kamenny_erb", items: [] },
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=borový+les`, items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=úpatí+štandlu+z+(lesní+cesty)`, forward: "upati_standlu", items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=březový+les`, items: [] },
+			},
+			kamenny_erb: {
+				name: "Kamenný erb",
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=zarostlá+cesta`, items: [] },
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=erb`, forward: "ŠtandlUErbu", items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina+(z+erbu)`, forward: "lesni_pesina", items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=strmý+svah`, items: [] },
+			},
+            "ŠtandlUErbu": {
+                name: "Štandl: U Erbu",
                 N: { 
-                    img: `../assets/bgr/bgr_test1.png`, 
-                    forward: "ŠtandlVrchol",
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Masivní+Kamenný+Erb`,
                     items: [
-                        // Hotspot 1: Starý patník
-                        { x: 380, y: 520, text: "Patník je starý a ošlehaný. Rytina naznačuje 'Cestu Hříšníků' – starou stezku k popravišti." },
-                        // Hotspot 2: Zrezivělý kříž
-                        { x: 150, y: 400, text: "Kříž je pokřivený a bez nápisu. Místní věří, že jej postavili, aby chránil před Barbořiným vlivem." }
+                        { x: 400, y: 300, text: "Kamenný Erb s otvory na symboly.", type: 'puzzle' }
                     ]
                 },
-                E: { img: `../assets/bgr/bgr_test2.png` },
-                S: { img: `../assets/bgr/bgr_test3.png` },
-                W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=Bažinatá+místa` },
-            },
-            "ŠtandlVrchol": {
-                name: "Štandl Vrchol (Popraviště)",
-                N: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Vyhlídka+na+krajinu`, 
-                    items: [
-                        // Hotspot 1: Podezřelý balvan
-                        { x: 450, y: 350, text: "Obrovský kámen. Pod ním se zdá být čerstvě rozryto. Možná tu někdo něco hledal... nebo pohřbil. Pod ním je ve vlhké zemině vidět otisk nevelké, staré PEČETI." },
-                        // Hotspot 2: Větev s provazem
-                        { x: 600, y: 200, text: "Zbytek hrubého lana. Barbořina kletba se váže na krev a provaz." }
-                    ]
-                },
-                E: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Pohled+na+Místek`,
-                    forward: "MístekNáměstí" 
-                },
-                S: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Cesta+zpět+k+úpatí`, 
-                    forward: "upati_standlu"
-                },
-                W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=Zbytky+kamenného+základu` },
-            },
-            "MístekNáměstí": {
-                name: "Místek Náměstí",
-                N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Budovy+a+radnice` },
-                E: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Most+přes+Ostravici`, 
-                    forward: "FrýdeckýZámek",
-                    items: [
-                        // Hotspot 1: Stará kašna
-                        { x: 550, y: 480, text: "Voda je ledová. Na okraji kašny je sotva viditelná rytina symbolu, který připomíná TROJLÍSTEK." }
-                    ]
-                },
-                S: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Směr+na+jižní+stranu` 
-                },
+                E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Les+a+skály` },
+                S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Les+a+skály` },
                 W: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/1a202c/d0c6ac?text=Směr+zpět+ke+Štandlu`,
-                    forward: "ŠtandlVrchol",
-                    items: [
-                        // Hotspot 2: Pamětní deska
-                        { x: 200, y: 450, text: "Deska zmiňuje Barboru jako 'ženu zatvrzelou, proklínající rodinné jmění'. Pečeť a rodinné stříbro jsou klíčem k osvobození její duše." }
-                    ]
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Zpět`,
+                    forward: "kamenny_erb"
                 },
             },
-            "FrýdeckýZámek": {
-                name: "Frýdecký Zámek",
+            "Jeskyně": {
+                name: "Jeskyně Černé Barbory",
                 N: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Čelní+pohled+na+hrad`,
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=KOSTRA+A+POKLAD+ATTILY`,
                     items: [
-                        // Hotspot 1: Zámecká brána (Zámek)
-                        { x: 400, y: 450, text: "Těžká dřevěná brána. Na jedné straně chybí erb, zůstala jen prohlubeň ve tvaru, která vypadá jako OTISK PEČETI. Bez ní se dovnitř nedostanete." }
+                        { x: 400, y: 300, text: "Našli jste kostru Černé Barbory, která v náručí svírá bednu. Uvnitř bedny je poklad, Attilův meč a Barbořina kletba je zlomena. **Gratulujeme, vyřešili jste Záhadu Černé Barbory!**", type: 'text' }
                     ]
                 },
-                E: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Východní+křídlo+zamku`,
-                    items: [
-                        // Hotspot 2: Prasklina ve zdi (Hádanka)
-                        { x: 100, y: 350, text: "V prasklině zdi je malá SCHRÁNKA s třemi prohlubněmi ve tvaru listu. Mechanismus uvnitř je blokován." }
-                    ]
-                },
+                E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Tma` },
                 S: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Zámecký+park`, 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Vstup+do+jeskyně`,
+                    forward: "ŠtandlUErbu"
                 },
-                W: { 
-                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Cesta+zpět+k+mostu`, 
-                    forward: "MístekNáměstí" 
+                W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Tma` },
+            },
+			cesta_se_zavorou: {
+				name: "Cesta se závorou",
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=hrob+v+dálce+u+valu`, forward: "u_hrobu", items: [] },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=úpatí+štandlu+(z+cesty)`, forward: "upati_standlu", items: [] },
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=temný+les`, items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=kostra+zvířete`, items: [] },
+			},
+			u_hrobu: {
+				name: "U hrobu",
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=hrob`, items: [
+                        { x: 450, y: 550, text: "Hrob je rozpadlý a vlhký. Mezi kameny nacházíte starý, zažloutlý papírek. "+ikona_stopa+" Získali jste stopu <span class='color-lighter-red'>Papírek s černým klíčem.</span>", itemKey: 'papirek_cerny_klic', type: 'item' },
+                    ]},
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=temnota`, items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=temnota+2`, items: [] },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=cesta+se+závorou+(z+u+hrobu)`, forward: "cesta_se_zavorou", items: [] },
+			},
+			vrchol_standlu: {
+				name: "Vrchol Štandlu",
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5b4436/d0c6ac?text=výhled+na+Místek`, forward: "mistecke_namesti", items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5b4436/d0c6ac?text=úpatí+štandlu+(z+vrcholu)`, forward: "upati_standlu", items: [] },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5b4436/d0c6ac?text=strmá+skála`, items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5b4436/d0c6ac?text=borový+les`, items: [] },
+			},
+			mistecke_namesti: {
+				name: "Místecké náměstí",
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=místecká+kašna`, forward: "kasna", items: [] },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+do+Frýdku`, forward: "frydecky_zamek", items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=budovy+na+místeckém+naměstí`, items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+na+Štandl`, forward: "vrchol_standlu", items: [] },
+			},
+			kasna: {
+				name: "Kašna",
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=symbol+na+kašně`, items: [
+                        { x: 550, y: 480, text: "Voda je ledová. Na okraji kašny je sotva viditelná rytina symbolu, který připomíná dubový list."+ikona_stopa+" Získali jste stopu <span class='color-lighter-red'>Rytina Dubového Listu.</span>", itemKey: 'dubovy_list', type: 'item' }
+                    ] },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=okolí+kašny`, items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=okolí+kašny+2`, items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=místecké+naměstí+(z+kašny)`, forward: "mistecke_namesti", items: [] },
+			},
+			frydecky_zamek: {
+				name: "Frýdecký zámek",
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=na+nádvoří+zámku`, forward: "zamek_nadvori", items: [] },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=ke+kostelu`, forward: "kostel_josta", items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=k+Poláškovi`, forward: "u_polaska", items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=místecké+naměstí+(ze+zámku)`, forward: "mistecke_namesti", items: [] },
+			},
+			zamek_nadvori: {
+				name: "Zámek nádvoří",
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=zámecká+brána`, items: [] },
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=zámecká+stěna`, items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=zámecká+věž`, forward: "vez", items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=frýdecký+zámek+(z+nádvoří)`, forward: "frydecky_zamek", items: [] },
+			},
+			vez: {
+				name: "Věž",
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=stěna+věže`, items: [
+                        { x: 400, y: 450, text: "Na jedné straně je vytesaný symbol, který připomíná pečeť. "+ikona_stopa+" Získali jste stopu <span class='color-lighter-red'>Šlechtická pečeť</span>", itemKey: 'slechticka_pecet', type: 'item' }
+                    ] },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=vedle+věže+E`, items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=vedle+věže+W`, items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=zámek+nádvoří+(z+věže)`, forward: "zamek_nadvori", items: [] },
+			},
+			kostel_josta: {
+				name: "Kostel Jošta",
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=vstup+do+kostela`, items: [] },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=náhrobní+kámen`, forward: "nahrobni_kamen", },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=frýdecký+zámek`, forward: "frydecky_zamek", items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=místecké+naměstí+(z+kostela)`, forward: "mistecke_namesti", items: [] },
+			},
+            nahrobni_kamen: {
+				name: "Náhrobní kámen",
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=náhrobek`, items: [
+                        { x: 300, y: 400, text: "Jeden ze starých náhrobků má neobvykle velký, kovový kříž. "+ikona_stopa+" Získali jste stopu <span class='color-lighter-red'>kříž.</span>", itemKey: 'kriz_z_hrobu', type: 'item' }
+                    ],
                 },
-            }
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=okolí+náhrobku`, },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=okolí+náhrobku`, },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=před+kostel+jošta+`, forward: "kostel_josta", items: [] },
+			},
+			u_polaska: {
+				name: "U Poláška",
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=do+města`, items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=Polášek+dveře`, items: [
+                        { x: 400, y: 350, text: "Tady pracuje Polášek. Zdá se být příjemný. Možná mu ukážete svůj nález.", type: 'npc' }
+                    ] },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=labyrint`, items: [] },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=frýdecký+zámek+(z+Poláška)`, forward: "frydecky_zamek", items: [] },
+			},
         };
 
-        const DIRECTIONS = ['N', 'E', 'S', 'W']; // 0=S, 1=V, 2=J, 3=Z
 
-        let currentArea = "upati_standlu";
-        let currentDirectionIndex = 0; // Začínáme směrem na Sever (N)
+		const DIRECTIONS = ['N', 'E', 'S', 'W'];
 
-        // --- ELEMENTY DOM ---
-        const viewport = document.getElementById('viewport');
-        const forwardButton = document.getElementById('move-forward');
-        const loadingOverlay = document.getElementById('loading-overlay');
-        const directionLabel = document.getElementById('direction-label');
-        const areaLabel = document.getElementById('area-label');
-        const modalBackdrop = document.getElementById('modal-backdrop');
-        const popupText = document.getElementById('popup-text');
+		let currentArea = "upati_standlu";
+		let currentDirectionIndex = 0;
+		let inventory = []; // Skladuje ID předmětů
 
-        // --- FUNKCE PRO MODAL ---
+		// --- ELEMENTY DOM ---
+		const viewport = document.getElementById('viewport');
+		const forwardButton = document.getElementById('move-forward');
+		const loadingOverlay = document.getElementById('loading-overlay');
+		const directionLabel = document.getElementById('direction-label');
+		const areaLabel = document.getElementById('area-label');
+		const textModalBackdrop = document.getElementById('text-modal-backdrop');
+		const puzzleModalBackdrop = document.getElementById('puzzle-modal-backdrop');
+		const popupText = document.getElementById('popup-text');
+		const inventoryDisplay = document.getElementById('inventory-display');
 
-        /**
-         * Zobrazí vyskakovací okno s daným textem.
-         * @param {string} text Text k zobrazení.
-         */
-        function showPopup(text) {
-            popupText.textContent = text;
-            modalBackdrop.style.display = 'flex';
-        }
+		// --- INVENTÁŘ A MODALY ---
 
-        /**
-         * Skryje vyskakovací okno.
-         */
-        function hidePopup() {
-            modalBackdrop.style.display = 'none';
-        }
+		/**
+		 * Zobrazí textové vyskakovací okno.
+		 * @param {string} text Text k zobrazení.
+		 */
+		function showPopup(text) {
+			popupText.innerHTML = text;
+			textModalBackdrop.style.display = 'flex';
+		}
 
-        // Zpřístupnění hidePopup globálně pro tlačítko Zavřít
-        window.hidePopup = hidePopup;
-        
-        // --- VYKRESLENÍ HOTSPOTŮ ---
+		/**
+		 * Skryje vyskakovací okno.
+		 * @param {string} modalId ID modalu k zavření.
+		 */
+		function hidePopup(modalId) {
+			document.getElementById(modalId).style.display = 'none';
+		}
 
-        /**
-         * Vykreslí klikatelné hotspoty definované pro aktuální pohled.
-         */
-        function renderHotspots() {
-            // 1. Odstranění předchozích hotspotů
-            const removableElements = Array.from(viewport.children).filter(el => 
-                !el.classList.contains('loading-overlay') && 
-                !el.classList.contains('direction-label') &&
-                !el.classList.contains('area-label')
-            );
-            removableElements.forEach(el => el.remove());
+		/**
+		 * Přidá předmět do inventáře a aktualizuje zobrazení.
+		 * @param {string} itemId ID předmětu (klíč z INVENTORY_ITEMS).
+		 */
+		function addItem(itemId) {
+			if (!inventory.includes(itemId)) {
+				inventory.push(itemId);
+				updateInventoryDisplay();
+				return true; // Předmět byl přidán
+			}
+			return false; // Předmět již v inventáři je
+		}
 
-            const currentDir = DIRECTIONS[currentDirectionIndex];
-            const viewData = MAP[currentArea][currentDir];
+		/**
+		 * Odebere předmět z inventáře (pro interakci Poláška).
+		 * @param {string} itemId ID předmětu.
+		 */
+		function removeItem(itemId) {
+			const index = inventory.indexOf(itemId);
+			if (index > -1) {
+				inventory.splice(index, 1);
+				updateInventoryDisplay();
+				return true;
+			}
+			return false;
+		}
 
-            if (viewData.items && viewData.items.length > 0) {
-                viewData.items.forEach(item => {
-                    const hotspot = document.createElement('div');
-                    hotspot.className = 'hotspot';
-                    // Nastavení pozice na základě pevných koordinátů (800x600)
-                    hotspot.style.left = `${item.x}px`;
-                    hotspot.style.top = `${item.y}px`;
-                    hotspot.title = "Prozkoumat"; // Tooltip
-                    hotspot.onclick = () => showPopup(item.text);
-                    viewport.appendChild(hotspot);
-                });
-            }
-        }
+		/**
+		 * Aktualizuje zobrazení inventáře.
+		 */
+		function updateInventoryDisplay() {
+			inventoryDisplay.innerHTML = '';
+			if (inventory.length === 0) {
+				inventoryDisplay.innerHTML = '<p style="text-align: center; color: #5a4d3f; font-size: 0.9em;">Inventář je prázdný. Hledejte stopy!</p>';
+				return;
+			}
 
-        // --- HLAVNÍ FUNKCE ---
+			inventory.forEach(itemId => {
+				const item = INVENTORY_ITEMS[itemId];
+				if (item) {
+					const itemDiv = document.createElement('div');
+					itemDiv.className = 'inventory-item';
+					itemDiv.title = item.tooltip;
 
-        /**
-         * Aktualizuje vizuální pohled na základě aktuální oblasti a směru.
-         */
-        function updateView() {
-            const currentDir = DIRECTIONS[currentDirectionIndex];
-            const areaData = MAP[currentArea];
-            const viewData = areaData[currentDir];
+					const icon = document.createElement('i');
+					icon.className = `fas ${item.icon} inventory-icon`;
 
-            // 1. Zobrazení indikátoru načítání
-            loadingOverlay.style.display = 'flex';
-            viewport.style.backgroundImage = 'none';
+					const name = document.createElement('span');
+					name.textContent = item.name.split(' ')[0]; // Zobrazí jen první slovo jména
 
-            // 2. Přednačtení obrázku
-            const img = new Image();
-            img.onload = () => {
-                // Po načtení schovej indikátor a nastav pozadí
-                viewport.style.backgroundImage = `url('${viewData.img}')`;
-                loadingOverlay.style.display = 'none';
-                
-                // 3. Aktualizace popisků
-                directionLabel.textContent = `Směr: ${currentDir}`;
-                areaLabel.textContent = `Oblast: ${areaData.name}`;
+					itemDiv.appendChild(icon);
+					itemDiv.appendChild(name);
+					inventoryDisplay.appendChild(itemDiv);
+				}
+			});
+		}
 
-                // 4. Aktualizace stavu tlačítka Vpřed
-                if (viewData.forward) {
-                    forwardButton.disabled = false;
-                    forwardButton.title = `Pokračovat do ${MAP[viewData.forward].name}`;
-                    forwardButton.textContent = 'Vpřed';
-                } else {
-                    forwardButton.disabled = true;
-                    forwardButton.title = "Zde není žádná cesta. Musíte se otočit.";
-                    forwardButton.textContent = 'Blokováno';
-                }
+		// --- LOGIKA HOTSPOTŮ ---
 
-                // 5. Vykreslení Hotspotů
-                renderHotspots();
-            };
+		/**
+		 * Zpracuje kliknutí na hotspot s komplexní logikou.
+		 * @param {object} item Data hotspotu.
+		 */
+		function handleHotspotClick(item) {
+			switch (item.type) {
+				case 'item':
+					const added = addItem(item.itemKey);
+					if (added) {
+						showPopup(`${item.text} <br><br><span class="add_item_text">Předmět přidán do inventáře.</span>`);
+					} else {
+						showPopup("Už jste toto místo prozkoumali. " + item.text.replace(/(\*+.*\*+)/g, ''));
+					}
+					break;
 
-            img.onerror = () => {
-                // Záložní řešení pro chybu načítání
-                viewport.style.backgroundImage = `url('https://placehold.co/800x600/600000/ffffff?text=CHYBA+NAČÍTÁNÍ+OBRÁZKU')`;
-                loadingOverlay.style.display = 'none';
-                directionLabel.textContent = `Směr: ${currentDir}`;
-                areaLabel.textContent = `Oblast: ${areaData.name} (Temnota pohltila obraz!)`;
-                forwardButton.disabled = true;
-                renderHotspots(); 
-            };
+				case 'npc':
+					handlePolasekInteraction(item);
+					break;
 
-            // Spuštění načítání obrázku
-            img.src = viewData.img;
-        }
+				case 'puzzle':
+					handlePuzzleInteraction(item);
+					break;
 
-        /**
-         * Otočí hráče o 90 stupňů doleva.
-         */
-        function turnLeft() {
-            currentDirectionIndex = (currentDirectionIndex - 1 + DIRECTIONS.length) % DIRECTIONS.length;
-            updateView();
-        }
+				case 'text':
+				default:
+					showPopup(item.text);
+					break;
+			}
+		}
 
-        /**
-         * Otočí hráče o 90 stupňů doprava.
-         */
-        function turnRight() {
-            currentDirectionIndex = (currentDirectionIndex + 1) % DIRECTIONS.length;
-            updateView();
-        }
+		/**
+		 * Speciální logika pro Poláška (NPC).
+		 */
+		function handlePolasekInteraction(item) {
+			if (inventory.includes('papirek_cerny_klic')) {
+				removeItem('papirek_cerny_klic');
+				addItem('cerny_klic');
+				showPopup("Polášek: 'Aha! Ten papírek... to sedí! Před lety jsem našel v tom hrobě starý klíč. Nikdy jsem ho nemohl vyčistit. Zdá se, že teď je váš. Je to **Černý Klíč**.'<br><br>***Vyměnili jste Papírek za Černý Klíč!***");
+			} else if (inventory.includes('cerny_klic')) {
+				showPopup("Polášek: 'Máte, co potřebujete. Někde u starého popraviště je erb, na který by klíč mohl pasovat...'");
+			} else {
+				showPopup("Polášek: 'Jsem jen starý strážce. Nic zvláštního tu neuvidíte. Ale les kolem Štandlu je prý plný starých tajemství.'");
+			}
+		}
 
-        /**
-         * Pokusí se přesunout hráče do nové oblasti.
-         */
-        function moveForward() {
-            const currentDir = DIRECTIONS[currentDirectionIndex];
-            const viewData = MAP[currentArea][currentDir];
+		/**
+		 * Logika pro spuštění hádanky.
+		 */
+		function handlePuzzleInteraction(item) {
+			if (currentArea === 'ŠtandlUErbu' && inventory.includes('cerny_klic')) {
+				// Hádanka u Erbu
+				puzzleModalBackdrop.style.display = 'flex';
+			} else if (currentArea === 'ŠtandlUErbu' && !inventory.includes('cerny_klic')) {
+				showPopup("Kamenný erb je na porostlý mechem. Po bližším prozkoumání je pod mechem v prohlubni vidět otvor ve tvaru klíčové dírky.");
+			} else {
+				showPopup(item.text);
+			}
+		}
 
-            if (viewData.forward) {
-                currentArea = viewData.forward;
-                updateView();
-            } else {
-                console.log("Nelze pokračovat vpřed. Cesta je zapečetěna.");
-                forwardButton.title = "Blokováno! Cesta je zapečetěna.";
-            }
-        }
+		/**
+		 * Zpracuje řešení hádanky.
+		 */
+		window.solvePuzzle = function () {
+			const sym1 = document.getElementById('symbol1').value.toUpperCase();
+			const sym2 = document.getElementById('symbol2').value.toUpperCase();
+			const sym3 = document.getElementById('symbol3').value.toUpperCase();
+			const sym4 = document.getElementById('symbol4').value.toUpperCase();
 
-        // --- INICIALIZACE ---
-        window.onload = function() {
-            updateView();
-        };
+			// Správné řešení: KLIC, LIST, KRIZ, PEČET
+			if (sym1 === 'KLIC' && sym2 === 'LIST' && sym3 === 'KRIZ' && sym4 === 'PECET') {
 
-        // Zpřístupnění funkcí pro HTML tlačítka
-        window.turnLeft = turnLeft;
-        window.turnRight = turnRight;
-        window.moveForward = moveForward;
+				// Otevření nové cesty do Jeskyně
+				MAP['ŠtandlUErbu']['N'].forward = 'Jeskyně';
 
-    </script>
+				hidePopup('puzzle-modal-backdrop');
+				showPopup('Mechanismus zaskřípe a s hlasitým duněním se v zemi otevře propadliště. **Cesta do Jeskyně Černé Barbory je volná!** Nyní se musíte otočit na Sever a jít Vpřed.');
+
+				// Zrušení hádanky, už není potřeba
+				const puzzleHotspot = MAP['ŠtandlUErbu']['N'].items.find(i => i.type === 'puzzle');
+				if (puzzleHotspot) puzzleHotspot.text = "Vstup do jeskyně je nyní otevřen.";
+
+				updateView();
+
+			} else {
+				showPopup('Erb se nehnul. Chybí vám symbol, nebo je špatné pořadí. Zkuste to znovu.');
+			}
+		}
+
+
+		// --- VYKRESLENÍ POHLEDU ---
+
+		function renderHotspots() {
+			// Odebere všechny prvky, které nejsou overlay nebo popisky
+			const removableElements = Array.from(viewport.children).filter(el =>
+				!el.classList.contains('loading-overlay') &&
+				!el.classList.contains('direction-label') &&
+				!el.classList.contains('area-label')
+			);
+			removableElements.forEach(el => el.remove());
+
+			const currentDir = DIRECTIONS[currentDirectionIndex];
+			const viewData = MAP[currentArea][currentDir];
+
+			if (viewData.items && viewData.items.length > 0) {
+				viewData.items.forEach(item => {
+					const hotspot = document.createElement('div');
+					hotspot.className = 'hotspot';
+					// Hotspoty se umisťují relativně k viewportu
+					hotspot.style.left = `${item.x / VIEWPORT_WIDTH * 100}%`;
+					hotspot.style.top = `${item.y / VIEWPORT_HEIGHT * 100}%`;
+					hotspot.title = "Prozkoumat";
+					// Nastavení volání handleHotspotClick
+					hotspot.onclick = () => handleHotspotClick(item);
+					viewport.appendChild(hotspot);
+				});
+			}
+		}
+
+		function updateView() {
+			const currentDir = DIRECTIONS[currentDirectionIndex];
+			const areaData = MAP[currentArea];
+			const viewData = areaData[currentDir];
+
+			// 1. Zobrazení indikátoru načítání
+			loadingOverlay.style.display = 'flex';
+			viewport.style.backgroundImage = 'none';
+
+			// 2. Přednačtení obrázku
+			const img = new Image();
+			img.onload = () => {
+				viewport.style.backgroundImage = `url('${viewData.img}')`;
+				loadingOverlay.style.display = 'none';
+
+				// 3. Aktualizace popisků
+				directionLabel.textContent = `Směr: ${currentDir}`;
+				areaLabel.textContent = `Oblast: ${areaData.name}`;
+
+				// 4. Aktualizace stavu tlačítka Vpřed
+				if (viewData.forward) {
+					forwardButton.disabled = false;
+					forwardButton.title = `Pokračovat do ${MAP[viewData.forward].name}`;
+					forwardButton.textContent = 'Vpřed';
+				} else {
+					forwardButton.disabled = true;
+					forwardButton.title = "Zde není žádná cesta. Musíte se otočit.";
+					forwardButton.textContent = 'Blokováno';
+				}
+
+				// 5. Vykreslení Hotspotů a Inventáře
+				renderHotspots();
+				updateInventoryDisplay();
+			};
+
+			img.onerror = () => {
+				// Přesměrování na placeholder v případě chyby načítání
+				viewport.style.backgroundImage = `url('https://placehold.co/800x600/600000/ffffff?text=CHYBA+NAČÍTÁNÍ+OBRÁZKU')`;
+				loadingOverlay.style.display = 'none';
+				directionLabel.textContent = `Směr: ${currentDir}`;
+				areaLabel.textContent = `Oblast: ${areaData.name} (Temnota pohltila obraz!)`;
+				forwardButton.disabled = true;
+				renderHotspots();
+			};
+
+			img.src = viewData.img;
+		}
+
+		// --- POHYBOVÉ FUNKCE ---
+		window.turnLeft = function () {
+			currentDirectionIndex = (currentDirectionIndex - 1 + DIRECTIONS.length) % DIRECTIONS.length;
+			updateView();
+		}
+
+		window.turnRight = function () {
+			currentDirectionIndex = (currentDirectionIndex + 1) % DIRECTIONS.length;
+			updateView();
+		}
+
+		window.moveForward = function () {
+			const currentDir = DIRECTIONS[currentDirectionIndex];
+			const viewData = MAP[currentArea][currentDir];
+
+			if (viewData.forward) {
+				currentArea = viewData.forward;
+				updateView();
+			} else {
+				showPopup("Nelze pokračovat vpřed.");
+			}
+		}
+
+		// --- INICIALIZACE ---
+		window.onload = function () {
+			// Nastavíme rozměry pro správné umístění hotspotů (pokud by se rozměry lišily od placeholderu)
+			// Pro responsivitu je lepší používat procenta, ale pro konzistenci zachováme tuto logiku pro umístění
+			updateView();
+		};
+
+	</script>
 </body>
+
 </html>
