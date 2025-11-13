@@ -82,17 +82,24 @@
 
 		// Definice předmětů v inventáři pro snazší správu (id, jméno, ikona)
 		const INVENTORY_ITEMS = {
-			'papirek_cerny_klic': { name: 'Papírek se Symbolem', icon: 'fa-scroll', tooltip: 'Papírek s nápisem: "Černý Klíč". Je to první symbol hádanky: KLIC.' },
-			'cerny_klic': { name: 'Černý Klíč', icon: 'fa-key', tooltip: 'Starý, nečistitelný klíč nalezený v hrobě. Odemkne erb.' },
-			'ctyrlistek': { name: 'Rytina Čtyřlístku', icon: 'fa-leaf', tooltip: 'Stopa z kašny. Druhý symbol hádanky: LIST.' },
-			'kriz_z_hrobu': { name: 'Kříž z Hrobu', icon: 'fa-cross', tooltip: 'Stopa z Jošta. Třetí symbol hádanky: KRIZ.' },
-			'slechticka_pecet': { name: 'Šlechtická Pečeť', icon: 'fa-stamp', tooltip: 'Stopa ze zámku. Čtvrtý symbol hádanky: PECET.' }
+			'papirek_cerny_klic': { name: 'Papírek', icon: 'fa-scroll', tooltip: 'Papírek s nákresem černého klíče.' },
+			'cerny_klic': { name: 'Klíč', icon: 'fa-key', tooltip: 'Starý, černý klíč, kdysi nalezený v hrobě pod Štandlem.' },
+			'dubovy_list': { name: 'Rytina', icon: 'fa-leaf', tooltip: 'Rytina dubového listu, nalezená na kašně.' },
+			'kriz_z_hrobu': { name: 'Kříž', icon: 'fa-cross', tooltip: 'Kříž z náhrobku u kostela sv. Jošta.' },
+			'slechticka_pecet': { name: 'Pečeť', icon: 'fa-stamp', tooltip: 'Šlechtická pečeť, byla vyryta na zámecké věži.' }
 		};
+
+        const ikona_stopa = '<br><br><i class="fa-solid fa-puzzle-piece color-red"></i> ';
 
 		const MAP = {
 			upati_standlu: {
 				name: "Úpatí Štandlu",
-				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=vrchol+štandlu`, forward: "vrchol_standlu", items: [] },
+				N: {
+                    img: `../assets/bgr/bgr_test3.png`, forward: "vrchol_standlu", 
+                    items: [
+                        { x: 380, y: 520, text: "Cesta pokračuje nahoru k vrcholu. Je strmá a plná stínů.", type: 'text' },
+                    ]
+                },
 				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina`, forward: "lesni_pesina", items: [] },
 				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cesta+se+závorou`, forward: "cesta_se_zavorou", items: [] },
 				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cesta+zpět+domů`, items: [] },
@@ -101,16 +108,46 @@
 				name: "Lesní pěšina",
 				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=kamenný+erb`, forward: "kamenny_erb", items: [] },
 				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=borový+les`, items: [] },
-				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=úpatí+štandlu`, forward: "upati_standlu", items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=úpatí+štandlu+z+(lesní+cesty)`, forward: "upati_standlu", items: [] },
 				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=březový+les`, items: [] },
 			},
 			kamenny_erb: {
 				name: "Kamenný erb",
 				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=zarostlá+cesta`, items: [] },
-				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=erb`, forward: "standl_u_erbu", items: [] },
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=erb`, forward: "ŠtandlUErbu", items: [] },
 				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina+(z+erbu)`, forward: "lesni_pesina", items: [] },
 				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=strmý+svah`, items: [] },
 			},
+            "ŠtandlUErbu": {
+                name: "Štandl: U Erbu",
+                N: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Masivní+Kamenný+Erb`,
+                    items: [
+                        { x: 400, y: 300, text: "Kamenný Erb s otvory na symboly.", type: 'puzzle' }
+                    ]
+                },
+                E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Les+a+skály` },
+                S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Les+a+skály` },
+                W: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Zpět`,
+                    forward: "kamenny_erb"
+                },
+            },
+            "Jeskyně": {
+                name: "Jeskyně Černé Barbory",
+                N: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=KOSTRA+A+POKLAD+ATTILY`,
+                    items: [
+                        { x: 400, y: 300, text: "Našli jste kostru Černé Barbory, která v náručí svírá bednu. Uvnitř bedny je poklad, Attilův meč a Barbořina kletba je zlomena. **Gratulujeme, vyřešili jste Záhadu Černé Barbory!**", type: 'text' }
+                    ]
+                },
+                E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Tma` },
+                S: { 
+                    img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Vstup+do+jeskyně`,
+                    forward: "ŠtandlUErbu"
+                },
+                W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Tma` },
+            },
 			cesta_se_zavorou: {
 				name: "Cesta se závorou",
 				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=hrob+v+dálce+u+valu`, forward: "u_hrobu", items: [] },
@@ -120,7 +157,9 @@
 			},
 			u_hrobu: {
 				name: "U hrobu",
-				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=hrob`, items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=hrob`, items: [
+                        { x: 450, y: 550, text: "Hrob je rozpadlý a vlhký. Mezi kameny nacházíte starý, zažloutlý papírek. "+ikona_stopa+" Získali jste stopu <span class='color-lighter-red'>Papírek s černým klíčem.</span>", itemKey: 'papirek_cerny_klic', type: 'item' },
+                    ]},
 				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=temnota`, items: [] },
 				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=temnota+2`, items: [] },
 				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=cesta+se+závorou+(z+u+hrobu)`, forward: "cesta_se_zavorou", items: [] },
@@ -141,7 +180,9 @@
 			},
 			kasna: {
 				name: "Kašna",
-				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=symbol+na+kašně`, items: [] },
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=symbol+na+kašně`, items: [
+                        { x: 550, y: 480, text: "Voda je ledová. Na okraji kašny je sotva viditelná rytina symbolu, který připomíná dubový list."+ikona_stopa+" Získali jste stopu <span class='color-lighter-red'>Rytina Dubového Listu.</span>", itemKey: 'dubovy_list', type: 'item' }
+                    ] },
 				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=okolí+kašny`, items: [] },
 				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=okolí+kašny+2`, items: [] },
 				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=místecké+naměstí+(z+kašny)`, forward: "mistecke_namesti", items: [] },
@@ -162,7 +203,9 @@
 			},
 			vez: {
 				name: "Věž",
-				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=stěna+věže`, items: [] },
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=stěna+věže`, items: [
+                        { x: 400, y: 450, text: "Na jedné straně je vytesaný symbol, který připomíná pečeť. "+ikona_stopa+" Získali jste stopu <span class='color-lighter-red'>Šlechtická pečeť</span>", itemKey: 'slechticka_pecet', type: 'item' }
+                    ] },
 				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=vedle+věže+E`, items: [] },
 				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=vedle+věže+W`, items: [] },
 				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=zámek+nádvoří+(z+věže)`, forward: "zamek_nadvori", items: [] },
@@ -170,19 +213,30 @@
 			kostel_josta: {
 				name: "Kostel Jošta",
 				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=vstup+do+kostela`, items: [] },
-				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=náhrobní+kámen`, forward: "nahrobni_kamen", items: [] },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=náhrobní+kámen`, forward: "nahrobni_kamen", },
 				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=frýdecký+zámek`, forward: "frydecky_zamek", items: [] },
 				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=místecké+naměstí+(z+kostela)`, forward: "mistecke_namesti", items: [] },
+			},
+            nahrobni_kamen: {
+				name: "Náhrobní kámen",
+				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=náhrobek`, items: [
+                        { x: 300, y: 400, text: "Jeden ze starých náhrobků má neobvykle velký, kovový kříž. "+ikona_stopa+" Získali jste stopu <span class='color-lighter-red'>kříž.</span>", itemKey: 'kriz_z_hrobu', type: 'item' }
+                    ],
+                },
+				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=okolí+náhrobku`, },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=okolí+náhrobku`, },
+				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=před+kostel+jošta+`, forward: "kostel_josta", items: [] },
 			},
 			u_polaska: {
 				name: "U Poláška",
 				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=do+města`, items: [] },
-				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=Polášek+dveře`, items: [] },
+				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=Polášek+dveře`, items: [
+                        { x: 400, y: 350, text: "Tady pracuje Polášek. Zdá se být příjemný. Možná mu ukážete svůj nález.", type: 'npc' }
+                    ] },
 				E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=labyrint`, items: [] },
 				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=frýdecký+zámek+(z+Poláška)`, forward: "frydecky_zamek", items: [] },
 			},
-			};
-
+        };
 
 
 		const DIRECTIONS = ['N', 'E', 'S', 'W'];
@@ -289,7 +343,7 @@
 				case 'item':
 					const added = addItem(item.itemKey);
 					if (added) {
-						showPopup(`${item.text} <br><br> ***Předmět přidán do inventáře.***`);
+						showPopup(`${item.text} <br><br><span class="add_item_text">Předmět přidán do inventáře.</span>`);
 					} else {
 						showPopup("Už jste toto místo prozkoumali. " + item.text.replace(/(\*+.*\*+)/g, ''));
 					}

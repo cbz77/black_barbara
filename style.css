@@ -1,3 +1,8 @@
+:root{
+    --red: #a31d1d;
+    --lighter-red: #f74040;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -8,6 +13,14 @@ body {
     font-family: 'Cinzel', serif;
     padding: 20px;
     min-height: 100vh;
+}
+
+.color-red {
+    color: var(--red);
+}
+
+.color-lighter-red {
+    color: var(--lighter-red);
 }
 
 .game-container {
@@ -44,7 +57,7 @@ h1 {
     overflow: hidden;
 }
 
-/* --- STYLY OVLÁDACÍCH PRVKŮ A POPISKŮ (FIX) --- */
+/* --- STYLY OVLØDACÍCH PRVKŮ A POPISKŮ (FIX) --- */
 .controls-row {
     display: flex;
     justify-content: center;
@@ -107,7 +120,7 @@ h1 {
 /* --- KONEC FIXU --- */
 
 
-/* --- INVENTÁŘ --- */
+/* --- INVENTØŘ --- */
 #inventory-display {
     width: 100%;
     min-height: 80px;
@@ -283,4 +296,10 @@ h1 {
         flex-direction: column;
         gap: 10px;
     }
+}
+
+.add_item_text {
+    color: var(--lighter-red);
+    font-size: small;
+    font-style: italic;
 }
