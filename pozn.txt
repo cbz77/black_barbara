@@ -1,0 +1,10 @@
+
+
+musí jít nìkde nelézt mapu (u studny na vrcholu na tabuli bude)
+
+na mapì bude skica mìsta s body (1, 2, 3, 4) - každý bod bude znaèit místo, kde se nalezla hádanka
+
+potom v kamenném erbu bude Symbol 1 = místo hrobu atd.
+
+
+potom až to bude, tak z hádanky smazat ty místa a nechat jen Symbol 1, Symbol 2 atd.

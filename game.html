@@ -54,10 +54,10 @@
 
 	<div class="modal-backdrop" id="puzzle-modal-backdrop">
 		<div id="input-puzzle-modal" class="popup-window">
-			<h2>Hádanka Erbové Pečetě</h2>
-			<p>Zadejte klíčová slova v pořadí, v jakém byla nalezena, abyste odemkli průchod.</p>
+			<h2>Hádanka</h2>
+			<p>Po vložení klíče do dírky se v kamenném erbu objevily 4 klávesnice. Musím pomocí nich napsat správné symboly.</p>
 			<div class="puzzle-input-group">
-				<label for="symbol1">Symbol 1 (Pod Štandlem - Hrob):</label>
+				<label for="symbol1">Symbol 1 (Hrob pod Štandlem):</label>
 				<input type="text" id="symbol1" maxlength="5">
 
 				<label for="symbol2">Symbol 2 (Místecká Kašna):</label>
@@ -70,6 +70,7 @@
 				<input type="text" id="symbol4" maxlength="6">
 			</div>
 			<button id="solve-puzzle-button" onclick="solvePuzzle()">Odemknout</button>
+            <button class="control-button" id="close-popup" onclick="hidePopup('puzzle-modal-backdrop')">Zavřít</button>
 		</div>
 	</div>
 	<!-- Konec Modalů -->
@@ -82,7 +83,7 @@
 
 		// Definice předmětů v inventáři pro snazší správu (id, jméno, ikona)
 		const INVENTORY_ITEMS = {
-			'papirek_cerny_klic': { name: 'Papírek', icon: 'fa-scroll', tooltip: 'Papírek s nákresem černého klíče.' },
+			'vizitka': { name: 'vizitka', icon: 'fa-scroll', tooltip: 'Vizitka jistého J. Poláška, historika. Na zadní straně je nakreslen černý klíč.' },
 			'cerny_klic': { name: 'Klíč', icon: 'fa-key', tooltip: 'Starý, černý klíč, kdysi nalezený v hrobě pod Štandlem.' },
 			'dubovy_list': { name: 'Rytina', icon: 'fa-leaf', tooltip: 'Rytina dubového listu, nalezená na kašně.' },
 			'kriz_z_hrobu': { name: 'Kříž', icon: 'fa-cross', tooltip: 'Kříž z náhrobku u kostela sv. Jošta.' },
@@ -158,7 +159,7 @@
 			u_hrobu: {
 				name: "U hrobu",
 				W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=hrob`, items: [
-                        { x: 450, y: 550, text: "Hrob je rozpadlý a vlhký. Mezi kameny nacházíte starý, zažloutlý papírek. "+ikona_stopa+" Získali jste stopu <span class='color-lighter-red'>Papírek s černým klíčem.</span>", itemKey: 'papirek_cerny_klic', type: 'item' },
+                        { x: 450, y: 550, text: "Hrob je rozpadlý a vlhký. Mezi kameny nacházíte starý, zažloutlý papírek. "+ikona_stopa+" Získali jste stopu <span class='color-lighter-red'>Stará vizitka.</span>", itemKey: 'vizitka', type: 'item' },
                     ]},
 				N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=temnota`, items: [] },
 				S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=temnota+2`, items: [] },
@@ -368,14 +369,14 @@
 		 * Speciální logika pro Poláška (NPC).
 		 */
 		function handlePolasekInteraction(item) {
-			if (inventory.includes('papirek_cerny_klic')) {
-				removeItem('papirek_cerny_klic');
+			if (inventory.includes('vizitka')) {
+				removeItem('vizitka');
 				addItem('cerny_klic');
-				showPopup("Polášek: 'Aha! Ten papírek... to sedí! Před lety jsem našel v tom hrobě starý klíč. Nikdy jsem ho nemohl vyčistit. Zdá se, že teď je váš. Je to **Černý Klíč**.'<br><br>***Vyměnili jste Papírek za Černý Klíč!***");
+				showPopup("Polášek: 'Aha! Má stará vizitka! Našel jste ji pod Štandlem? Před lety jsem našel v tom hrobě starý klíč. Nikdy jsem ho nemohl vyčistit. Zdá se, že teď je váš.'<br><br>Vyměnili jste <span class='color-lighter-red'>vizitku</span> za <span class='color-lighter-red'>černý klíč</span>!");
 			} else if (inventory.includes('cerny_klic')) {
-				showPopup("Polášek: 'Máte, co potřebujete. Někde u starého popraviště je erb, na který by klíč mohl pasovat...'");
+				showPopup("Polášek: 'Máte, co potřebujete. Jsem rád, že jsem se klíče zbavil. Nosil mi smůlu. Odneste ho raději zpět ke Štandlu.'");
 			} else {
-				showPopup("Polášek: 'Jsem jen starý strážce. Nic zvláštního tu neuvidíte. Ale les kolem Štandlu je prý plný starých tajemství.'");
+				showPopup("Polášek: 'Víte že, les kolem Štandlu je prý plný starých tajemství? Pokud najdete něco zajímavého, rád se na to podívám.'");
 			}
 		}
 
@@ -409,7 +410,7 @@
 				MAP['ŠtandlUErbu']['N'].forward = 'Jeskyně';
 
 				hidePopup('puzzle-modal-backdrop');
-				showPopup('Mechanismus zaskřípe a s hlasitým duněním se v zemi otevře propadliště. **Cesta do Jeskyně Černé Barbory je volná!** Nyní se musíte otočit na Sever a jít Vpřed.');
+				showPopup('Mechanismus zaskřípe a s hlasitým duněním se balvan odsune. <br><br><span class="color-lighter-red">Objevil se tajný vstup do jeskyně!</span><br><br> Nyní se musím pouze odhodlat a jít vpřed.');
 
 				// Zrušení hádanky, už není potřeba
 				const puzzleHotspot = MAP['ŠtandlUErbu']['N'].items.find(i => i.type === 'puzzle');
@@ -418,7 +419,7 @@
 				updateView();
 
 			} else {
-				showPopup('Erb se nehnul. Chybí vám symbol, nebo je špatné pořadí. Zkuste to znovu.');
+				showPopup('Nic se nestalo.');
 			}
 		}
 
@@ -489,7 +490,7 @@
 
 			img.onerror = () => {
 				// Přesměrování na placeholder v případě chyby načítání
-				viewport.style.backgroundImage = `url('https://placehold.co/800x600/600000/ffffff?text=CHYBA+NAČÍTÁNÍ+OBRÁZKU')`;
+				viewport.style.backgroundImage = `url('https://placehold.co/800x600/600000/ffffff?text=Temnota+pohltila+obraz!')`;
 				loadingOverlay.style.display = 'none';
 				directionLabel.textContent = `Směr: ${currentDir}`;
 				areaLabel.textContent = `Oblast: ${areaData.name} (Temnota pohltila obraz!)`;
