@@ -95,7 +95,8 @@ h1 {
 
 /* Styling pro popisky směru a oblasti */
 .area-label,
-.direction-label {
+.direction-label,
+.pohled-label {
     position: absolute;
     padding: 8px 15px;
     background-color: rgba(30, 25, 20, 0.7);
@@ -114,6 +115,11 @@ h1 {
 
 .direction-label {
     top: 10px;
+    right: 10px;
+}
+
+.pohled-label {
+    bottom: 10px;
     right: 10px;
 }
 

@@ -198,6 +198,7 @@ const viewport = document.getElementById('viewport');
 const forwardButton = document.getElementById('move-forward');
 const loadingOverlay = document.getElementById('loading-overlay');
 const directionLabel = document.getElementById('direction-label');
+const pohledLabel = document.getElementById('pohled-label');
 const areaLabel = document.getElementById('area-label');
 const textModalBackdrop = document.getElementById('text-modal-backdrop');
 const puzzleModalBackdrop = document.getElementById('puzzle-modal-backdrop');
@@ -458,7 +459,8 @@ function renderHotspots() {
 	const removableElements = Array.from(viewport.children).filter(el =>
 		!el.classList.contains('loading-overlay') &&
 		!el.classList.contains('direction-label') &&
-		!el.classList.contains('area-label')
+		!el.classList.contains('area-label') &&
+		!el.classList.contains('pohled-label')
 	);
 	removableElements.forEach(el => el.remove());
 
@@ -484,7 +486,9 @@ function updateView() {
 	const currentDir = DIRECTIONS[currentDirectionIndex];
 	const areaData = MAP[currentArea];
 	const viewData = areaData[currentDir];
-	const pohled = areaData[currentDir]
+	const pohled = areaData[currentDir].pohled;
+
+	console.log(`Pohled: ${pohled}`);
 
 	// 1. Zobrazení indikátoru načítání
 	loadingOverlay.style.display = 'flex';
@@ -499,6 +503,7 @@ function updateView() {
 		// 3. Aktualizace popisků
 		directionLabel.textContent = `Směr: ${currentDir}`;
 		areaLabel.textContent = `Oblast: ${areaData.name}`;
+		pohledLabel.textContent = `${pohled}`;
 
 		// 4. Aktualizace stavu tlačítka Vpřed
 		if (viewData.forward) {
@@ -521,6 +526,7 @@ function updateView() {
 		viewport.style.backgroundImage = `url('https://placehold.co/800x600/600000/ffffff?text=Temnota+pohltila+obraz!')`;
 		loadingOverlay.style.display = 'none';
 		directionLabel.textContent = `Směr: ${currentDir}`;
+		pohledLabel.textContent = `${pohled}`;
 		areaLabel.textContent = `Oblast: ${areaData.name} (Temnota pohltila obraz!)`;
 		forwardButton.disabled = true;
 		renderHotspots();
