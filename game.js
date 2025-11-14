@@ -5,9 +5,9 @@ const VIEWPORT_HEIGHT = 600;
 
 // Definice předmětů v inventáři pro snazší správu (id, jméno, ikona)
 const INVENTORY_ITEMS = {
-	'vizitka': { name: 'vizitka', icon: 'fa-scroll', tooltip: 'Vizitka jistého J. Poláška, historika. Na zadní straně je nakreslen černý klíč.' },
+	'vizitka': { name: 'vizitka', icon: 'fa-scroll', tooltip: 'Zašlá vizitka jistého J. Poláška, historika. Na zadní straně je nakreslen černý klíč.' },
 	'cerny_klic': { name: 'Klíč', icon: 'fa-key', tooltip: 'Starý, černý klíč, kdysi nalezený v hrobě pod Štandlem.' },
-	'dubovy_list': { name: 'Rytina', icon: 'fa-leaf', tooltip: 'Rytina dubového listu, nalezená na kašně.' },
+	'dubovy_list': { name: 'Dubový list', icon: 'fa-leaf', tooltip: 'Rytina dubového listu, nalezená na kašně.' },
 	'kriz_z_hrobu': { name: 'Kříž', icon: 'fa-cross', tooltip: 'Kříž z náhrobku u kostela sv. Jošta.' },
 	'slechticka_pecet': { name: 'Pečeť', icon: 'fa-stamp', tooltip: 'Šlechtická pečeť, byla vyryta na zámecké věži.' },
 	'mapa': { name: 'Mapa', icon: 'fa-map', tooltip: 'Mapa z vrcholu Štandlu.', type: "image", popupText: "<img src='../assets/images/mapa_old_final.png' class='inventory_img'>" },
@@ -111,7 +111,7 @@ const MAP = {
 		name: "U hrobu",
 		W: {
 			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=hrob`, pohled: "hrob", items: [
-				{ x: 450, y: 550, text: "Hrob je rozpadlý a vlhký. Mezi kameny nacházíte starý, zažloutlý papírek. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Stará vizitka.</span>", itemKey: 'vizitka', type: 'item' },
+				{ x: 450, y: 550, text: "Hrob je rozpadlý a vlhký. Mezi kameny nacházíte starý, zažloutlý papírek. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Zašlá vizitka.</span>", itemKey: 'vizitka', type: 'item' },
 			]
 		},
 		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=temnota`, pohled: "temnota", items: [] },
@@ -139,17 +139,17 @@ const MAP = {
 	mistecke_namesti: {
 		name: "Místecké náměstí",
 		N: { img: `../assets/bgr/namesti/namesti_N.png`, pohled: "cesta do Frýdku", forward: "frydecky_zamek", items: [] },
-		E: { img: `../assets/bgr/namesti/namesti_E.png`, pohled: "morový sloup", forward: "morovy_sloup", items: [] },
+		E: { img: `../assets/bgr/namesti/namesti_E.png`, pohled: "morový sloup", forward: "socha_marie", items: [] },
 		W: { img: `../assets/bgr/namesti/namesti_W.png`, pohled: "budovy na místeckém naměstí", items: [] },
 		S: { img: `../assets/bgr/namesti/namesti_S.png`, pohled: "průchod ke štandlu", forward: "pod_standl", items: [
 			{ x: 230, y: 210, text: "Na tomto balkóně jednou stál V. Havel", type: 'text' }
 		] },
 	},
-	morovy_sloup: {
-		name: "Morový sloup",
+	socha_marie: {
+		name: "Socha Panny Marie",
 		N: {
-			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=symbol+na+kašně`, pohled: "symbol na kašně", items: [
-				{ x: 550, y: 480, text: "Voda je ledová. Na okraji kašny je sotva viditelná rytina symbolu, který připomíná dubový list." + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Rytina Dubového Listu.</span>", itemKey: 'dubovy_list', type: 'item' }
+			img: `../assets/bgr/namesti/sloup_detail.png`, pohled: "reliéf na soše", items: [
+				{ x: 420, y: 280, text: "Na sloupu je výrazná reliéf dubového listu, raději si jej zaznamenám." + ikona_stopa + " Nakreslím si <span class='color-lighter-red'>Dubový list.</span>", itemKey: 'dubovy_list', type: 'item' }
 			]
 		},
 		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=okolí+kašny`, pohled: "okolí kašny", items: [] },
@@ -304,7 +304,7 @@ function updateInventoryDisplay() {
 			icon.className = `fas ${item.icon} inventory-icon`;
 
 			const name = document.createElement('span');
-			name.textContent = item.name.split(' ')[0]; // Zobrazí jen první slovo jména
+			name.textContent = item.name
 
 			itemDiv.appendChild(icon);
 			itemDiv.appendChild(name);
@@ -549,7 +549,7 @@ function updateView() {
 		// 4. Aktualizace stavu tlačítka Vpřed
 		if (viewData.forward) {
 			forwardButton.disabled = false;
-			forwardButton.title = `Pokračovat do ${MAP[viewData.forward].name}`;
+			forwardButton.title = `Pokračovat směrem ${MAP[viewData.forward].name}`;
 			forwardButton.textContent = 'Vpřed';
 		} else {
 			forwardButton.disabled = true;
