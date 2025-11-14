@@ -22,6 +22,7 @@ const MAP = {
 			img: `../assets/bgr/bgr_test3.png`, pohled: "vrchol štandlu", forward: "vrchol_standlu",
 			items: [
 				{ x: 380, y: 520, text: "Cesta pokračuje nahoru k vrcholu. Je strmá a plná listí.", type: 'text' },
+				{ x: 280, y: 420, text: "Temný kout.", type: 'text' },
 			]
 		},
 		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina`, pohled: "lesní pěšina", forward: "lesni_pesina", items: [] },
@@ -65,7 +66,10 @@ const MAP = {
 			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=KOSTRA+A+POKLAD+ATTILY`,
 			pohled: "kostra a poklad attily",
 			items: [
-				{ x: 400, y: 300, text: "Našli jste kostru Černé Barbory, která v náručí svírá bednu. Uvnitř bedny je poklad, Attilův meč a Barbořina kletba je zlomena. **Gratulujeme, vyřešili jste Záhadu Černé Barbory!**", type: 'text' }
+				{ x: 400, y: 300, text: "Gratulujeme, vyřešili jste Záhadu Černé Barbory!", type: 'text' },
+				{ x: 200, y: 300, text: "Attilův meč", type: 'text' },
+				{ x: 600, y: 300, text: "Kostra černé barbory", type: 'text' },
+				{ x: 300, y: 400, text: "Hrob krále Attily", type: 'text' }
 			]
 		},
 		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Tma`, pohled: "tma" },
