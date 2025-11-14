@@ -1,3 +1,3 @@
 Point and Click game made with HTML / CSS / JS 
 
-© 2005 Jan Gerek
+© 2025 Jan Gerek
