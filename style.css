@@ -95,7 +95,8 @@ h1 {
 
 /* Styling pro popisky směru a oblasti */
 .area-label,
-.direction-label {
+.direction-label,
+.pohled-label {
     position: absolute;
     padding: 8px 15px;
     background-color: rgba(30, 25, 20, 0.7);
@@ -114,6 +115,11 @@ h1 {
 
 .direction-label {
     top: 10px;
+    right: 10px;
+}
+
+.pohled-label {
+    bottom: 10px;
     right: 10px;
 }
 
@@ -302,4 +308,33 @@ h1 {
     color: var(--lighter-red);
     font-size: small;
     font-style: italic;
+}
+
+.inventory_img {
+    max-width: 200px;
+    margin:0 auto;
+}
+
+.inventory_img:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: black;
+    cursor: pointer;
+    background:white;
+    font-size: 20px;
+    padding:5px;
+    font-weight: bold;
+    width: 20px;
+    text-align: center;
+    border-radius: 5%;
+    border: 1px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
