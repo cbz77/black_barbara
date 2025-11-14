@@ -195,6 +195,10 @@ h1 {
     z-index: 100;
 }
 
+#text-modal-backdrop{
+    z-index: 101;
+}
+
 .popup-window {
     background-color: #1a1510;
     border: 5px solid #3d3229;
