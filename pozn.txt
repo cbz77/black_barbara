@@ -43,3 +43,11 @@ a symboly budou vypadat jak v poslu smrti, jen na nich bude - klíè, list, køíž, 
               
 
 ve finále když èlovìk najde barboru a poklad stane se: po otoèení k východu z jeskynì a kliku na Vpøed - zèerná obrazovka a popup: temnota pohltila obraz, kámen se zavalil a vás nyní èeká stejný osud jako barboru 
+
+
+
+intro:
+
+- jednoho dne jsi se rozhodl pro výlet na Štandl, na vrcholu se ti líbilo a rozhodl jsi se, že dolù pùjdeš jinou cestou. Po cestì jsi narazil na podivný velký balvan, který na sobì mìl vytesán jakýsi oblièej, nebo snad erb.
+
+Dnes pøišel den, kdy jsi se rozhodl pøijít té záhadì na kloub. Stojíš na úpatí vrcholu štandlu, dobrodružství zaèíná...

@@ -130,7 +130,7 @@ const MAP = {
 		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5b4436/d0c6ac?text=borový+les`, pohled: "borový les", items: [] },
 	},
 	pod_standl: {
-		name: "Pod Štandl",
+		name: "Pod Štandlem",
 		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=přes+most+do+místku`, pohled: "přes most do místku", forward: "mistecke_namesti", items: [] },
 		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+okolo+štandlu`, pohled: "cesta okolo štandlu", items: [] },
 		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+k+upati+standlu`, pohled: "cesta k upatí štandlu", forward: "upati_standlu", items: [] },
@@ -139,9 +139,11 @@ const MAP = {
 	mistecke_namesti: {
 		name: "Místecké náměstí",
 		N: { img: `../assets/bgr/namesti/namesti_N.png`, pohled: "cesta do Frýdku", forward: "frydecky_zamek", items: [] },
-		E: { img: `../assets/bgr/namesti/namesti_E.png`, pohled: "morový sloup", forward: "kasna", items: [] },
+		E: { img: `../assets/bgr/namesti/namesti_E.png`, pohled: "morový sloup", forward: "morovy_sloup", items: [] },
 		W: { img: `../assets/bgr/namesti/namesti_W.png`, pohled: "budovy na místeckém naměstí", items: [] },
-		S: { img: `../assets/bgr/namesti/namesti_S.png`, pohled: "cesta pod štandl", forward: "pod_standl", items: [] },
+		S: { img: `../assets/bgr/namesti/namesti_S.png`, pohled: "průchod ke štandlu", forward: "pod_standl", items: [
+			{ x: 230, y: 210, text: "Na tomto balkóně jednou stál V. Havel", type: 'text' }
+		] },
 	},
 	morovy_sloup: {
 		name: "Morový sloup",
@@ -180,11 +182,17 @@ const MAP = {
 		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=zámek+nádvoří+(z+věže)`, pohled: "zpět na nádvoří", forward: "zamek_nadvori", items: [] },
 	},
 	kostel_josta: {
-		name: "Kostel Jošta",
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=vstup+do+kostela`, pohled: "vstup do kostela", items: [] },
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=náhrobní+kámen`, pohled: "okolo kostela", forward: "vedle_kostela", },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=frýdecký+zámek+(schodiště)`, pohled: "k zánmku", forward: "frydecky_zamek", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=místecké+naměstí+(z+kostela)`, pohled: "místecké naměstí", forward: "mistecke_namesti", items: [] },
+		name: "Kostel sv. Jošta",
+		N: { img: `../assets/bgr/jost/jost_N.png`, pohled: "vstup do kostela", items: [
+			{ x: 650, y: 380, text: "Na ceduli stojí: <i>\" Kdo se nebojí musí do kostela! \"</i> ", type: 'text' }
+		] },
+		E: { img: `../assets/bgr/jost/jost_E.png`, pohled: "okolo kostela", forward: "vedle_kostela", },
+		W: { img: `../assets/bgr/jost/jost_W.png`, pohled: "po schodišti k zámku", forward: "frydecky_zamek", items: [
+			{ x: 300, y: 400, text: "Statný javor, jistě toho mnoho pamatuje.", type: 'text' }
+		] },
+		S: { img: `../assets/bgr/jost/jost_S.png`, pohled: "na místecké naměstí", forward: "mistecke_namesti", items: [
+			{ x: 200, y: 450, text: "Chodník vede do Místku", type: 'text' }
+		] },
 	},
 	vedle_kostela: {
 		name: "Vedle kostela sv. Jošta",
