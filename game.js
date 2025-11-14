@@ -72,9 +72,29 @@ const MAP = {
 		S: {
 			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Vstup+do+jeskyně`,
 			pohled: "vstup do jeskyně",
-			forward: "ŠtandlUErbu"
+			forward: "konec"
 		},
 		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Tma`, pohled: "tma" },
+	},
+	konec: {
+		name: "Konec",
+		N: {
+			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=temnota`, pohled: "temnota", items: [
+				{ x: 550, y: 480, text: "černočerná tma", type: 'text' }
+			]
+		},
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=temnota`, pohled: "temnota", items: [
+				{ x: 550, y: 480, text: "černočerná tma", type: 'text' }
+			]
+		},
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=temnota`, pohled: "temnota", items: [
+				{ x: 550, y: 480, text: "černočerná tma", type: 'text' }
+			] 
+		},
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=temnota`, pohled: "temnota", items: [
+				{ x: 550, y: 480, text: "černočerná tma", type: 'text' }
+			]
+		},
 	},
 	cesta_se_zavorou: {
 		name: "Cesta se závorou",
@@ -451,6 +471,15 @@ window.solvePuzzle = function () {
 	}
 }
 
+/**
+ * Logika pro konec
+ */
+function handleKonec() {
+	if (currentArea === 'konec') {
+		showPopup("<span class='color-lighter-red'>Temnota pohltila obraz</span><br><br>, kámen se zavalil a vás nyní čeká stejný osud jako barboru! <br><br> <span class='color-lighter-red'>Konec hry</span>");
+	} 
+}
+
 
 // --- VYKRESLENÍ POHLEDU ---
 
@@ -555,6 +584,10 @@ window.moveForward = function () {
 		updateView();
 	} else {
 		showPopup("Nelze pokračovat vpřed.");
+	}
+
+	if(currentArea === 'konec') {
+		handleKonec();
 	}
 }
 
