@@ -138,13 +138,13 @@ const MAP = {
 	},
 	mistecke_namesti: {
 		name: "Místecké náměstí",
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=místecká+kašna`, pohled: "místecká kašna", forward: "kasna", items: [] },
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+do+Frýdku`, pohled: "cesta do Frýdku", forward: "frydecky_zamek", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=budovy+na+místeckém+naměstí`, pohled: "budovy na místeckém naměstí", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+na+Štandl`, pohled: "cesta pod štandl", forward: "pod_standl", items: [] },
+		N: { img: `../assets/bgr/namesti/namesti_N.png`, pohled: "cesta do Frýdku", forward: "frydecky_zamek", items: [] },
+		E: { img: `../assets/bgr/namesti/namesti_E.png`, pohled: "morový sloup", forward: "kasna", items: [] },
+		W: { img: `../assets/bgr/namesti/namesti_W.png`, pohled: "budovy na místeckém naměstí", items: [] },
+		S: { img: `../assets/bgr/namesti/namesti_S.png`, pohled: "cesta pod štandl", forward: "pod_standl", items: [] },
 	},
-	kasna: {
-		name: "Kašna",
+	morovy_sloup: {
+		name: "Morový sloup",
 		N: {
 			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=symbol+na+kašně`, pohled: "symbol na kašně", items: [
 				{ x: 550, y: 480, text: "Voda je ledová. Na okraji kašny je sotva viditelná rytina symbolu, který připomíná dubový list." + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Rytina Dubového Listu.</span>", itemKey: 'dubovy_list', type: 'item' }
@@ -182,20 +182,20 @@ const MAP = {
 	kostel_josta: {
 		name: "Kostel Jošta",
 		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=vstup+do+kostela`, pohled: "vstup do kostela", items: [] },
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=náhrobní+kámen`, pohled: "okolo kostela", forward: "nahrobni_kamen", },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=náhrobní+kámen`, pohled: "okolo kostela", forward: "vedle_kostela", },
 		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=frýdecký+zámek+(schodiště)`, pohled: "k zánmku", forward: "frydecky_zamek", items: [] },
 		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=místecké+naměstí+(z+kostela)`, pohled: "místecké naměstí", forward: "mistecke_namesti", items: [] },
 	},
-	nahrobni_kamen: {
-		name: "Náhrobní kámen",
+	vedle_kostela: {
+		name: "Vedle kostela sv. Jošta",
 		N: {
-			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=náhrobek`, pohled: "náhrobek", items: [
-				{ x: 300, y: 400, text: "Jeden ze starých náhrobků má neobvykle velký, kovový kříž. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>kříž.</span>", itemKey: 'kriz_z_hrobu', type: 'item' }
-			],
+			img: `../assets/bgr/jost_hrob/jost_hrob_N.png`, pohled: "stará škola", items: [],
 		},
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=okolí+náhrobku`, pohled: "okolí náhrobku", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=okolí+náhrobku`, pohled: "okolí náhrobku", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=před+kostel+jošta+`, pohled: "zpět ke kostelu", forward: "kostel_josta", items: [] },
+		E: { img: `../assets/bgr/jost_hrob/jost_hrob_E.png`, pohled: "socha sv. Floriána", items: [] },
+		W: { img: `../assets/bgr/jost_hrob/jost_hrob_W.png`, pohled: "náhrobní kámen", items: [
+			{ x: 250, y: 400, text: "Jeden ze starých náhrobků má neobvykle velký, kovový kříž. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>kříž.</span>", itemKey: 'kriz_z_hrobu', type: 'item' }
+		] },
+		S: { img: `../assets/bgr/jost_hrob/jost_hrob_S.png`, pohled: "zpět ke vchodu do kostela", forward: "kostel_josta", items: [] },
 	},
 	u_polaska: {
 		name: "U Poláška",
