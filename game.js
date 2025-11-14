@@ -158,10 +158,10 @@ const MAP = {
 	},
 	frydecky_zamek: {
 		name: "Frýdecký zámek",
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=na+nádvoří+zámku`, pohled: "nádvoří zámku", forward: "zamek_nadvori", items: [] },
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=zámecký+park`, pohled: "zámecký park",  items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=k+Poláškovi`, pohled: "k Poláškovi", forward: "u_polaska", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=místecké+naměstí+(ze+zámku)`, pohled: "místecké naměstí", forward: "mistecke_namesti", items: [] },
+		N: { img: `../assets/bgr/zamek/zamek_N.png`, pohled: "zámecká zahrada", items: [] },
+		E: { img: `../assets/bgr/zamek/zamek_E.png`, pohled: "nádvoří zámku", forward: "zamek_nadvori",  items: [] },
+		W: { img: `../assets/bgr/zamek/zamek_W.png`, pohled: "k Poláškovi", forward: "u_polaska", items: [] },
+		S: { img: `../assets/bgr/zamek/zamek_S.png`, pohled: "zámeckým parkem do místku", forward: "mistecke_namesti", items: [] },
 	},
 	zamek_nadvori: {
 		name: "Zámek nádvoří",
