@@ -37,14 +37,14 @@ const MAP = {
 		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=březový+les`, pohled: "březový les", items: [] },
 	},
 	kamenny_erb: {
-		name: "Kamenný erb",
+		name: "U Kamenného erbu",
 		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=zarostlá+cesta`, pohled: "zarostlá cesta", items: [] },
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=erb`, pohled: "erb", forward: "ŠtandlUErbu", items: [] },
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=erb`, pohled: "erb", forward: "kammeny_erb_detail", items: [] },
 		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina+(z+erbu)`, pohled: "lesní pěšina", forward: "lesni_pesina", items: [] },
 		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=strmý+svah`, pohled: "strmý svah", items: [] },
 	},
-	"ŠtandlUErbu": {
-		name: "Štandl: U Erbu",
+	kammeny_erb_detail: {
+		name: "Kamenná tvář",
 		N: {
 			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Masivní+Kamenný+Erb`,
 			pohled: "masivní kamenný erb",
@@ -60,8 +60,8 @@ const MAP = {
 			forward: "kamenny_erb"
 		},
 	},
-	"Jeskyně": {
-		name: "Jeskyně Černé Barbory",
+	jeskyne: {
+		name: "Tajná jeskyně",
 		N: {
 			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=KOSTRA+A+POKLAD+ATTILY`,
 			pohled: "kostra a poklad attily",
@@ -159,7 +159,7 @@ const MAP = {
 	frydecky_zamek: {
 		name: "Frýdecký zámek",
 		E: { img: `../assets/bgr/zamek/zamek_E.png`, pohled: "zámecká zahrada", items: [] },
-		S: { img: `../assets/bgr/zamek/zamek_S.png`, pohled: "nádvoří zámku", forward: "zamek_nadvori",  items: [] },
+		S: { img: `../assets/bgr/zamek/zamek_S.png`, pohled: "na nádvoří zámku", forward: "zamek_nadvori",  items: [] },
 		N: { img: `../assets/bgr/zamek/zamek_N.png`, pohled: "k muzeu", forward: "u_muzea", items: [] },
 		W: { img: `../assets/bgr/zamek/zamek_W.png`, pohled: "zámeckým parkem do místku", forward: "mistecke_namesti", items: [] },
 	},
@@ -168,17 +168,17 @@ const MAP = {
 		E: { img: `../assets/bgr/zamek_nadvori/nadvori_E.png`, pohled: "zámeckou branou ke kostelu", forward: "kostel_josta", },
 		S: { img: `../assets/bgr/zamek_nadvori/nadvori_S.png`, pohled: "zámecké nádvoří", items: [] },
 		W: { img: `../assets/bgr/zamek_nadvori/nadvori_W.png`, pohled: "zámecká věž", forward: "vez", items: [] },
-		N: { img: `../assets/bgr/zamek_nadvori/nadvori_N.png`, pohled: "cesta před zámek", forward: "frydecky_zamek", items: [] },
+		N: { img: `../assets/bgr/zamek_nadvori/nadvori_N.png`, pohled: "před frýdecký zámek", forward: "frydecky_zamek", items: [] },
 	},
 	vez: {
 		name: "Věž",
 		W: {
 			img: `../assets/bgr/zamek_nadvori/vez/koruna.png`, pohled: "stěna pod věží", items: [
-				{ x: 320, y: 240, text: "Na jedné straně je vytesaný symbol, který připomíná pečeť. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Šlechtická pečeť</span>", itemKey: 'slechticka_pecet', type: 'item' }
+				{ x: 320, y: 240, text: "Na jedné cihle je vytesaný symbol, který připomíná královskou korunu. Nakreslím si to. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Královská koruna</span>", itemKey: 'slechticka_pecet', type: 'item' }
 			]
 		},
-		S: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_S.png`, pohled: "vedle věže", items: [] },
-		N: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_N.png`, pohleded: "vedle věže", items: [] },
+		S: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_S.png`, pohled: "vedle věže vlevo", items: [] },
+		N: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_N.png`, pohled: "vedle věže vpravo", items: [] },
 		E: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_E.png`, pohled: "zpět na nádvoří", forward: "zamek_nadvori", items: [] },
 	},
 	kostel_josta: {
@@ -444,10 +444,10 @@ function handlePolasekInteraction(item) {
  * Logika pro spuštění hádanky.
  */
 function handlePuzzleInteraction(item) {
-	if (currentArea === 'ŠtandlUErbu' && inventory.includes('cerny_klic')) {
+	if (currentArea === 'kammeny_erb_detail' && inventory.includes('cerny_klic')) {
 		// Hádanka u Erbu
 		puzzleModalBackdrop.style.display = 'flex';
-	} else if (currentArea === 'ŠtandlUErbu' && !inventory.includes('cerny_klic')) {
+	} else if (currentArea === 'kammeny_erb_detail' && !inventory.includes('cerny_klic')) {
 		showPopup("Kamenný erb je na porostlý mechem. Po bližším prozkoumání je pod mechem v prohlubni vidět otvor ve tvaru klíčové dírky.");
 	} else {
 		showPopup(item.text);
@@ -467,13 +467,13 @@ window.solvePuzzle = function () {
 	if (sym1 === 'KLIC' && sym2 === 'LIST' && sym3 === 'KRIZ' && sym4 === 'PECET') {
 
 		// Otevření nové cesty do Jeskyně
-		MAP['ŠtandlUErbu']['N'].forward = 'Jeskyně';
+		MAP['kammeny_erb_detail']['N'].forward = 'jeskyne';
 
 		hidePopup('puzzle-modal-backdrop');
 		showPopup('Mechanismus zaskřípe a s hlasitým duněním se balvan odsune. <br><br><span class="color-lighter-red">Objevil se tajný vstup do jeskyně!</span><br><br> Nyní se musím pouze odhodlat a jít vpřed.');
 
 		// Zrušení hádanky, už není potřeba
-		const puzzleHotspot = MAP['ŠtandlUErbu']['N'].items.find(i => i.type === 'puzzle');
+		const puzzleHotspot = MAP['kammeny_erb_detail']['N'].items.find(i => i.type === 'puzzle');
 		if (puzzleHotspot) puzzleHotspot.text = "Vstup do jeskyně je nyní otevřen.";
 
 		updateView();
