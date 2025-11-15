@@ -35,20 +35,57 @@ const MAP = {
 
 	/* SEVERNI STEZKA */
 
+	cesta_pole: {
+		name: "Cesta kolem pole",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=kolem+pole+do+lesa`, pohled: "kolem pole do lesa", forward: "stara_lipina", items: [] },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les`, pohled: "les", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=pole`, pohled: "pole", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+cesta`, pohled: "lesní cesta", forward: "lesni_krizovatka", items: [] },
+	},
+
+	stara_lipina: {
+		name: "Stará Lipina",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=do+lesa`, pohled: "do lesa", forward: "les_hrob", items: [] },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les+E`, pohled: "les E", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les+W`, pohled: "les W", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesem+k+poli`, pohled: "lesem k poli", forward: "cesta_pole", items: [] },
+	},
+
+	les_hrob: {
+		name: "Uprostřed lesa",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cosi+v+lese`, pohled: "cosi v lese", forward: "u_hrobu", items: [] },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les+E`, pohled: "les E", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les+W`, pohled: "les W", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+cesta+přes+Lipinu`, pohled: "lesní cesta přes Lipinu", forward: "stara_lipina", items: [] },
+	},
+
+	u_hrobu: {
+		name: "U hrobu",
+		N: {
+			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=hrob`, pohled: "hrob", items: [
+				{ x: 450, y: 550, text: "Hrob je rozpadlý a vlhký. Mezi kameny nacházíte starý, zažloutlý papírek. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Zašlá vizitka.</span>", itemKey: 'vizitka', type: 'item' },
+			]
+		},
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=vedle+hrobu+E`, pohled: "vedle hrobu E", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=vedle+hrobu+W`, pohled: "vedle hrobu W", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=zpět+do+lesa`, pohled: "zpět do lesa", forward: "les_hrob", items: [] },
+		
+	},
+
 	/* JIZNI STEZKA */
 
 	upati_standlu: {
 		name: "Úpatí Štandlu",
-		N: {img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=na+lesní+křižovatku`, pohled: "na lesní křižovatku", forward: "lesni_krizovatka", items: []},
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cesta+na+lesní+křižovatku`, pohled: "na lesní křižovatku", forward: "lesni_krizovatka", items: []},
 		E: {
-			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cesta+na+vrchol+Štandlu`, pohled: "na vrchol štandlu", forward: "vrchol_standlu",
+			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=na+vrchol+štandlu`, pohled: "na vrchol štandlu", forward: "vrchol_standlu",
 			items: [
 				{ x: 380, y: 520, text: "Cesta pokračuje nahoru k vrcholu. Je strmá a plná listí.", type: 'text' },
 				{ x: 280, y: 420, text: "Temný kout.", type: 'text' },
 			]
 		},
-		W: { img: `htps://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les`, pohled: "les", items: [] },
-		S: { img: `htps://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesni+pěšina`, pohled: "lesní pěšina", forward: "lesni_pesina", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les`, pohled: "les", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina`, pohled: "lesní pěšina", forward: "lesni_pesina", items: [] },
 	},
 	lesni_pesina: {
 		name: "Lesní pěšina",
@@ -78,7 +115,7 @@ const MAP = {
 		name: "Vrchol Štandlu",
 		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=val+nebo+les`, pohled: "val nebo les", items: [] },
 		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+dolů+z+vrcholu`, pohled: "cesta dolů z vrcholu", forward: "pod_standlem", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=k+úpatí+štандlu`, pohled: "k úpatí štandlu", forward: "upati_standlu", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=k+úpatí+štаndlu`, pohled: "k úpatí štandlu", forward: "upati_standlu", items: [] },
 		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=k+informační+ceduli`, pohled: "k informační ceduli", forward: "informacni_cedule", items: [] },
 	},
 	informacni_cedule: {
@@ -168,19 +205,6 @@ const MAP = {
 			]
 		},
 	},
-
-
-	u_hrobu: {
-		name: "U hrobu",
-		W: {
-			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=hrob`, pohled: "hrob", items: [
-				{ x: 450, y: 550, text: "Hrob je rozpadlý a vlhký. Mezi kameny nacházíte starý, zažloutlý papírek. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Zašlá vizitka.</span>", itemKey: 'vizitka', type: 'item' },
-			]
-		},
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=temnota`, pohled: "temnota", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=temnota+2`, pohled: "temnota 2", items: [] },
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=cesta+se+závorou+(z+u+hrobu)`, pohled: "cesta se závorou", forward: "cesta_se_zavorou", items: [] },
-	},
 	
 	/* F-M */
 
@@ -269,8 +293,8 @@ const MAP = {
 
 const DIRECTIONS = ['N', 'E', 'S', 'W'];
 
-let currentArea = "upati_standlu";
-let currentDirectionIndex = 0;
+let currentArea = "zacatek_cesty";
+let currentDirectionIndex = 1; // Výchozí směr: E (východ)
 let inventory = []; // Skladuje ID předmětů
 
 // --- ELEMENTY DOM ---
