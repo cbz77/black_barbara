@@ -160,7 +160,7 @@ const MAP = {
 		name: "Frýdecký zámek",
 		E: { img: `../assets/bgr/zamek/zamek_E.png`, pohled: "zámecká zahrada", items: [] },
 		S: { img: `../assets/bgr/zamek/zamek_S.png`, pohled: "nádvoří zámku", forward: "zamek_nadvori",  items: [] },
-		N: { img: `../assets/bgr/zamek/zamek_N.png`, pohled: "k Poláškovi", forward: "u_polaska", items: [] },
+		N: { img: `../assets/bgr/zamek/zamek_N.png`, pohled: "k muzeu", forward: "u_muzea", items: [] },
 		W: { img: `../assets/bgr/zamek/zamek_W.png`, pohled: "zámeckým parkem do místku", forward: "mistecke_namesti", items: [] },
 	},
 	zamek_nadvori: {
@@ -205,16 +205,16 @@ const MAP = {
 		] },
 		W: { img: `../assets/bgr/jost_hrob/jost_hrob_W.png`, pohled: "zpět ke vchodu do kostela", forward: "kostel_josta", items: [] },
 	},
-	u_polaska: {
-		name: "U Poláška",
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=do+města`, pohled: "do města", items: [] },
+	u_muzea: {
+		name: "U muzea",
+		E: { img: `../assets/bgr/muzeum/muzeum_E.png`, pohled: "do města", items: [] },
 		N: {
-			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=Polášek+dveře`, pohled: "Poláškovy dveře", items: [
+			img: `../assets/bgr/muzeum/muzeum_N.png`, pohled: "dveře do muzea", items: [
 				{ x: 400, y: 350, text: "Tady pracuje Polášek. Zdá se být příjemný. Možná mu ukážete svůj nález.", type: 'npc' }
 			]
 		},
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=labyrint`, pohled: "labyrint", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=frýdecký+zámek+(z+Poláška)`, pohled: "k zámku", forward: "frydecky_zamek", items: [] },
+		S: { img: `../assets/bgr/muzeum/muzeum_S.png`, pohled: "cihlové kruhy", items: [] },
+		W: { img: `../assets/bgr/muzeum/muzeum_W.png`, pohled: "k frýdeckému zámku", forward: "frydecky_zamek", items: [] },
 	},
 };
 
