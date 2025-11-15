@@ -26,7 +26,7 @@ const MAP = {
 	},
 
 	lesni_krizovatka: {
-		name: "",
+		name: "Rozcestí u křížku",
 		N: { img: `../assets/bgr/lesni_krizovatka/lesni_krizovatka_N.png`, pohled: "severní stezka", forward: "cesta_pole", items: [] },
 		E: { img: `../assets/bgr/lesni_krizovatka/lesni_krizovatka_E.png`, pohled: "hustý les", items: [] },
 		W: { img: `../assets/bgr/lesni_krizovatka/lesni_krizovatka_W.png`, pohled: "k začátku cesty", forward: "zacatek_cesty", items: [] },
@@ -76,16 +76,16 @@ const MAP = {
 
 	upati_standlu: {
 		name: "Úpatí Štandlu",
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cesta+na+lesní+křižovatku`, pohled: "na lesní křižovatku", forward: "lesni_krizovatka", items: []},
+		N: { img: `../assets/bgr/upati_standlu/upati_standlu_N.png`, pohled: "na lesní křižovatku", forward: "lesni_krizovatka", items: []},
 		E: {
-			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=na+vrchol+štandlu`, pohled: "na vrchol štandlu", forward: "vrchol_standlu",
+			img: `../assets/bgr/upati_standlu/upati_standlu_E.png`, pohled: "na vrchol štandlu", forward: "vrchol_standlu",
 			items: [
 				{ x: 380, y: 520, text: "Cesta pokračuje nahoru k vrcholu. Je strmá a plná listí.", type: 'text' },
 				{ x: 280, y: 420, text: "Temný kout.", type: 'text' },
 			]
 		},
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les`, pohled: "les", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina`, pohled: "lesní pěšina", forward: "lesni_pesina", items: [] },
+		W: { img: `../assets/bgr/upati_standlu/upati_standlu_W.png`, pohled: "les", items: [] },
+		S: { img: `../assets/bgr/upati_standlu/upati_standlu_S.png`, pohled: "lesní pěšina", forward: "lesni_pesina", items: [] },
 	},
 	lesni_pesina: {
 		name: "Lesní pěšina",
