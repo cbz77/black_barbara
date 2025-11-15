@@ -78,7 +78,7 @@ const MAP = {
 		name: "Úpatí Štandlu",
 		N: { img: `../assets/bgr/upati_standlu/upati_standlu_N.png`, pohled: "na lesní křižovatku", forward: "lesni_krizovatka", items: []},
 		E: {
-			img: `../assets/bgr/upati_standlu/upati_standlu_E.png`, pohled: "na vrchol štandlu", forward: "vrchol_standlu",
+			img: `../assets/bgr/upati_standlu/upati_standlu_E2.png`, pohled: "na vrchol štandlu", forward: "vrchol_standlu",
 			items: [
 				{ x: 380, y: 520, text: "Cesta pokračuje nahoru k vrcholu. Je strmá a plná listí.", type: 'text' },
 				{ x: 280, y: 420, text: "Temný kout.", type: 'text' },
