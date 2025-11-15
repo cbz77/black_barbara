@@ -27,10 +27,10 @@ const MAP = {
 
 	lesni_krizovatka: {
 		name: "",
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=severní+stezka`, pohled: "severní stezka", forward: "cesta_pole", items: [] },
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=hustý+les`, pohled: "hustý les", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=k+začátku+cesty`, pohled: "k začátku cesty", forward: "zacatek_cesty", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=jižní+stezka`, pohled: "jižní stezka", forward: "upati_standlu", items: [] },
+		N: { img: `../assets/bgr/lesni_krizovatka/lesni_krizovatka_N.png`, pohled: "severní stezka", forward: "cesta_pole", items: [] },
+		E: { img: `../assets/bgr/lesni_krizovatka/lesni_krizovatka_E.png`, pohled: "hustý les", items: [] },
+		W: { img: `../assets/bgr/lesni_krizovatka/lesni_krizovatka_W.png`, pohled: "k začátku cesty", forward: "zacatek_cesty", items: [] },
+		S: { img: `../assets/bgr/lesni_krizovatka/lesni_krizovatka_S.png`, pohled: "jižní stezka", forward: "upati_standlu", items: [] },
 	},
 
 	/* SEVERNI STEZKA */
