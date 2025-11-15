@@ -16,53 +16,122 @@ const INVENTORY_ITEMS = {
 const ikona_stopa = '<br><br><i class="fa-solid fa-puzzle-piece color-red"></i> ';
 
 const MAP = {
+
+	zacatek_cesty: {
+		name: "Začátek cesty",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les+N`, pohled: "les N", items: [] },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=k+lesní+křižovatce`, pohled: "k lesní křižovatce", forward: "lesni_krizovatka", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=zpět+domů`, pohled: "zpět domů", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les+S`, pohled: "les S", forward: "lesni_krizovatka", items: [] },
+	},
+
+	lesni_krizovatka: {
+		name: "",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=severní+stezka`, pohled: "severní stezka", forward: "cesta_pole", items: [] },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=hustý+les`, pohled: "hustý les", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=k+začátku+cesty`, pohled: "k začátku cesty", forward: "zacatek_cesty", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=jižní+stezka`, pohled: "jižní stezka", forward: "upati_standlu", items: [] },
+	},
+
+	/* SEVERNI STEZKA */
+
+	/* JIZNI STEZKA */
+
 	upati_standlu: {
 		name: "Úpatí Štandlu",
-		N: {
-			img: `../assets/bgr/bgr_test3.png`, pohled: "vrchol štandlu", forward: "vrchol_standlu",
+		N: {img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=na+lesní+křižovatku`, pohled: "na lesní křižovatku", forward: "lesni_krizovatka", items: []},
+		E: {
+			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cesta+na+vrchol+Štandlu`, pohled: "na vrchol štandlu", forward: "vrchol_standlu",
 			items: [
 				{ x: 380, y: 520, text: "Cesta pokračuje nahoru k vrcholu. Je strmá a plná listí.", type: 'text' },
 				{ x: 280, y: 420, text: "Temný kout.", type: 'text' },
 			]
 		},
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina`, pohled: "lesní pěšina", forward: "lesni_pesina", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cesta+se+závorou`, pohled: "cesta se závorou", forward: "cesta_se_zavorou", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=cesta+zpět+domů`, pohled: "cesta zpět domů", items: [] },
+		W: { img: `htps://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les`, pohled: "les", items: [] },
+		S: { img: `htps://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesni+pěšina`, pohled: "lesní pěšina", forward: "lesni_pesina", items: [] },
 	},
 	lesni_pesina: {
 		name: "Lesní pěšina",
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=kamenný+erb`, pohled: "kamenný erb", forward: "kamenny_erb", items: [] },
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=borový+les`, pohled: "borový les", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=úpatí+štandlu+z+(lesní+cesty)`, pohled: "úpatí štandlu", forward: "upati_standlu", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=březový+les`, pohled: "březový les", items: [] },
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=k+úpatí+Štandlu`, pohled: "k úpatí Štandlu", forward: "upati_standlu", items: [] },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les`, pohled: "les E", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les`, pohled: "les W", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=dál+pěšinou`, pohled: "dál pěšinou", forward: "prudky_svah", items: [] },
 	},
+	prudky_svah: {
+		name: "U potoka",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=do+prudkého+svahu`, pohled: "do prudkého svahu", items: [
+				{ x: 400, y: 300, text: "Strmý svah plný kamenů a kořenů. tam se nevyškrábu.", type: 'text' }
+			] 
+		},
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=dále+kolem+Štandlu`, pohled: "dále kolem štandlu", forward: "pod_standlem", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=potok`, pohled: "potok", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina`, pohled: "lesní pěšina", forward: "lesni_pesina", items: [] },
+	},
+	pod_standlem: {
+		name: "Pod Štandlem",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=svah`, pohled: "svah", items: [] }, //nebo upati standlu
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=přes+most+do+místku`, pohled: "přes most do místku", forward: "mistecke_namesti", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=vrchol+Štandlu`, pohled: "vrchol štandlu", forward: "vrchol_standlu", items: [] },
+		S: { img: ``, pohled: "lesní cesta podél potoka", forward: "prudky_svah", items: [] },
+	},
+	vrchol_standlu: {
+		name: "Vrchol Štandlu",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=val+nebo+les`, pohled: "val nebo les", items: [] },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+dolů+z+vrcholu`, pohled: "cesta dolů z vrcholu", forward: "pod_standlem", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=k+úpatí+štандlu`, pohled: "k úpatí štandlu", forward: "upati_standlu", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=k+informační+ceduli`, pohled: "k informační ceduli", forward: "informacni_cedule", items: [] },
+	},
+	informacni_cedule: {
+		name: "Informační cedule",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=na+vrchol`, pohled: "na vrchol", forward: "vrchol_standlu", items: [] },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=informační+cedule`, pohled: "informační cedule", items: [
+			{ x: 380, y: 520, text: "V rohu informační cedule se skrývala skrčená mapa.", itemKey: 'mapa', type: 'item' },
+		] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=zatarasená+chodba`, pohled: "zatarasená chodba", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=posezení`, pohled: "posezení", forward: "pred_tvari", items: [] },
+	},
+	pred_tvari: {
+		name: "",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=k+posezení`, pohled: "k posezení", forward: "infomacni_cedule", items: [] },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=strmý+svah+E`, pohled: "strmý svah E", forward: "", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=strmý+svah+W`, pohled: "strmý svah W", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=velké+balvany`, pohled: "velké balvany", forward: "kammenny_erb", items: [] },
+	},
+
+	/* KAMENNY ERB */
+
 	kamenny_erb: {
-		name: "U Kamenného erbu",
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=zarostlá+cesta`, pohled: "zarostlá cesta", items: [] },
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=erb`, pohled: "erb", forward: "kammeny_erb_detail", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=lesní+pěšina+(z+erbu)`, pohled: "lesní pěšina", forward: "lesni_pesina", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=strmý+svah`, pohled: "strmý svah", items: [] },
+		name: "U velkého balvanu",
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=zpět+k+vrcholu`, pohled: "zpět k vrcholu", items: [] },
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=balvan+s+kamennou+tvaří`, pohled: "balvan s kamennou tváří", forward: "kammeny_erb_detail", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=roklina`, pohled: "roklina", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=strmý+svah`, pohled: "strmý svah", items: [
+			{ x: 400, y: 300, text: "Dále je svah příliš strmý na to, abych šel dál.", type: 'text' }
+		] },
 	},
 	kammeny_erb_detail: {
 		name: "Kamenná tvář",
-		N: {
+		
+		N: { img: ``, pohled: "vedle detailu N", items: [] },
+		E: {
 			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Masivní+Kamenný+Erb`,
 			pohled: "masivní kamenný erb",
 			items: [
 				{ x: 400, y: 300, text: "Kamenný Erb s otvory na symboly.", type: 'puzzle' }
 			]
 		},
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Les+a+skály`, pohled: "les a skály", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Les+a+skály`, pohled: "les a skály", items: [] },
 		W: {
 			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/20201a/d0c6ac?text=Zpět`,
 			pohled: "zpět",
 			forward: "kamenny_erb"
 		},
+		S: { img: ``, pohled: "vedle detailu S", items: [] }
 	},
 	jeskyne: {
 		name: "Tajná jeskyně",
-		N: {
+		
+		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Tma`, pohled: "tma" },
+		E: {
 			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=KOSTRA+A+POKLAD+ATTILY`,
 			pohled: "kostra a poklad attily",
 			items: [
@@ -72,13 +141,12 @@ const MAP = {
 				{ x: 300, y: 400, text: "Hrob krále Attily", type: 'text' }
 			]
 		},
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Tma`, pohled: "tma" },
-		S: {
-			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Vstup+do+jeskyně`,
-			pohled: "vstup do jeskyně",
+		W: {
+			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Východ+z+jeskyně`,
+			pohled: "východ z jeskyně",
 			forward: "konec"
 		},
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Tma`, pohled: "tma" },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/000000/d0c6ac?text=Tma`, pohled: "tma" },
 	},
 	konec: {
 		name: "Konec",
@@ -100,13 +168,8 @@ const MAP = {
 			]
 		},
 	},
-	cesta_se_zavorou: {
-		name: "Cesta se závorou",
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=hrob+v+dálce+u+valu`, pohled: "hrob v dálce u valu", forward: "u_hrobu", items: [] },
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=úpatí+štandlu+(z+cesty)`, pohled: "úpatí štandlu", forward: "upati_standlu", items: [] },
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=temný+les`, pohled: "temný les", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=kostra+zvířete`, pohled: "kostra zvířete", items: [] },
-	},
+
+
 	u_hrobu: {
 		name: "U hrobu",
 		W: {
@@ -118,24 +181,9 @@ const MAP = {
 		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=temnota+2`, pohled: "temnota 2", items: [] },
 		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4d261e/d0c6ac?text=cesta+se+závorou+(z+u+hrobu)`, pohled: "cesta se závorou", forward: "cesta_se_zavorou", items: [] },
 	},
-	vrchol_standlu: {
-		name: "Vrchol Štandlu",
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5b4436/d0c6ac?text=pod+štandl`, pohled: "pod štandl", forward: "pod_standl", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5b4436/d0c6ac?text=úpatí+štandlu+(z+vrcholu)`, pohled: "úpatí štandlu", forward: "upati_standlu", items: [] },
-		E: {
-			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5b4436/d0c6ac?text=informační+cedule`, pohled: "informační cedule", items: [
-				{ x: 380, y: 520, text: "V rohu informační cedule se skrývala skrčená mapa.", itemKey: 'mapa', type: 'item' },
-			]
-		},
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5b4436/d0c6ac?text=borový+les`, pohled: "borový les", items: [] },
-	},
-	pod_standl: {
-		name: "Pod Štandlem",
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=přes+most+do+místku`, pohled: "přes most do místku", forward: "mistecke_namesti", items: [] },
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+okolo+štandlu`, pohled: "cesta okolo štandlu", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+k+upati+standlu`, pohled: "cesta k upatí štandlu", forward: "upati_standlu", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/71685b/d0c6ac?text=cesta+na+vrchol+Štandlu`, pohled: "vrchol štandlu", forward: "vrchol_standlu", items: [] },
-	},
+	
+	/* F-M */
+
 	mistecke_namesti: {
 		name: "Místecké náměstí",
 		E: { img: `../assets/bgr/namesti/namesti_E.png`, pohled: "cesta do Frýdku", forward: "frydecky_zamek", items: [] },
