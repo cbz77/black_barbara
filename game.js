@@ -201,7 +201,7 @@ const MAP = {
 		},
 		E: { img: `../assets/bgr/jost_hrob/jost_hrob_E.png`, pohled: "socha sv. Floriána", items: [] },
 		W: { img: `../assets/bgr/jost_hrob/jost_hrob_W.png`, pohled: "náhrobní kámen", items: [
-			{ x: 250, y: 400, text: "Jeden ze starých náhrobků má neobvykle velký, kovový kříž. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>kříž.</span>", itemKey: 'kriz_z_hrobu', type: 'item' }
+			{ x: 250, y: 400, text: "Na náhrobním kameni je velký, kamenný kříž, nakreslím si ho.<br><br> <img src='assets/bgr/jost_hrob/nahrobek.png' class='inventory_img' onclick='event.stopPropagation(); showLightbox(\"assets/bgr/jost_hrob/nahrobek.png\")'> " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>kříž.</span>", itemKey: 'kriz_z_hrobu', type: 'item' }
 		] },
 		S: { img: `../assets/bgr/jost_hrob/jost_hrob_S.png`, pohled: "zpět ke vchodu do kostela", forward: "kostel_josta", items: [] },
 	},
