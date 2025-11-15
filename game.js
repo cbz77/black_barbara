@@ -138,10 +138,10 @@ const MAP = {
 	},
 	mistecke_namesti: {
 		name: "Místecké náměstí",
-		N: { img: `../assets/bgr/namesti/namesti_N.png`, pohled: "cesta do Frýdku", forward: "frydecky_zamek", items: [] },
-		E: { img: `../assets/bgr/namesti/namesti_E.png`, pohled: "morový sloup", forward: "socha_marie", items: [] },
-		W: { img: `../assets/bgr/namesti/namesti_W.png`, pohled: "budovy na místeckém naměstí", items: [] },
-		S: { img: `../assets/bgr/namesti/namesti_S.png`, pohled: "průchod ke štandlu", forward: "pod_standl", items: [
+		E: { img: `../assets/bgr/namesti/namesti_E.png`, pohled: "cesta do Frýdku", forward: "frydecky_zamek", items: [] },
+		S: { img: `../assets/bgr/namesti/namesti_S.png`, pohled: "socha panny marie", forward: "socha_marie", items: [] },
+		N: { img: `../assets/bgr/namesti/namesti_N.png`, pohled: "budovy na místeckém naměstí", items: [] },
+		W: { img: `../assets/bgr/namesti/namesti_W.png`, pohled: "průchod ke štandlu", forward: "pod_standl", items: [
 			{ x: 230, y: 210, text: "Na tomto balkóně jednou stál V. Havel", type: 'text' }
 		] },
 	},
@@ -158,63 +158,63 @@ const MAP = {
 	},
 	frydecky_zamek: {
 		name: "Frýdecký zámek",
-		N: { img: `../assets/bgr/zamek/zamek_N.png`, pohled: "zámecká zahrada", items: [] },
-		E: { img: `../assets/bgr/zamek/zamek_E.png`, pohled: "nádvoří zámku", forward: "zamek_nadvori",  items: [] },
-		W: { img: `../assets/bgr/zamek/zamek_W.png`, pohled: "k Poláškovi", forward: "u_polaska", items: [] },
-		S: { img: `../assets/bgr/zamek/zamek_S.png`, pohled: "zámeckým parkem do místku", forward: "mistecke_namesti", items: [] },
+		E: { img: `../assets/bgr/zamek/zamek_E.png`, pohled: "zámecká zahrada", items: [] },
+		S: { img: `../assets/bgr/zamek/zamek_S.png`, pohled: "nádvoří zámku", forward: "zamek_nadvori",  items: [] },
+		N: { img: `../assets/bgr/zamek/zamek_N.png`, pohled: "k Poláškovi", forward: "u_polaska", items: [] },
+		W: { img: `../assets/bgr/zamek/zamek_W.png`, pohled: "zámeckým parkem do místku", forward: "mistecke_namesti", items: [] },
 	},
 	zamek_nadvori: {
 		name: "Zámek nádvoří",
-		N: { img: `../assets/bgr/zamek_nadvori/nadvori_N.png`, pohled: "zámeckou branou ke kostelu", forward: "kostel_josta", },
-		E: { img: `../assets/bgr/zamek_nadvori/nadvori_E.png`, pohled: "zámecké nádvoří", items: [] },
-		S: { img: `../assets/bgr/zamek_nadvori/nadvori_S.png`, pohled: "zámecká věž", forward: "vez", items: [] },
-		W: { img: `../assets/bgr/zamek_nadvori/nadvori_W.png`, pohled: "cesta před zámek", forward: "frydecky_zamek", items: [] },
+		E: { img: `../assets/bgr/zamek_nadvori/nadvori_E.png`, pohled: "zámeckou branou ke kostelu", forward: "kostel_josta", },
+		S: { img: `../assets/bgr/zamek_nadvori/nadvori_S.png`, pohled: "zámecké nádvoří", items: [] },
+		W: { img: `../assets/bgr/zamek_nadvori/nadvori_W.png`, pohled: "zámecká věž", forward: "vez", items: [] },
+		N: { img: `../assets/bgr/zamek_nadvori/nadvori_N.png`, pohled: "cesta před zámek", forward: "frydecky_zamek", items: [] },
 	},
 	vez: {
 		name: "Věž",
-		S: {
+		W: {
 			img: `../assets/bgr/zamek_nadvori/vez/koruna.png`, pohled: "stěna pod věží", items: [
 				{ x: 320, y: 240, text: "Na jedné straně je vytesaný symbol, který připomíná pečeť. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Šlechtická pečeť</span>", itemKey: 'slechticka_pecet', type: 'item' }
 			]
 		},
-		E: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_E.png`, pohled: "vedle věže", items: [] },
-		W: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_W.png`, pohleded: "vedle věže", items: [] },
-		N: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_N.png`, pohled: "zpět na nádvoří", forward: "zamek_nadvori", items: [] },
+		S: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_S.png`, pohled: "vedle věže", items: [] },
+		N: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_N.png`, pohleded: "vedle věže", items: [] },
+		E: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_E.png`, pohled: "zpět na nádvoří", forward: "zamek_nadvori", items: [] },
 	},
 	kostel_josta: {
 		name: "Kostel sv. Jošta",
-		N: { img: `../assets/bgr/jost/jost_N.png`, pohled: "vstup do kostela", items: [
+		E: { img: `../assets/bgr/jost/jost_E.png`, pohled: "vstup do kostela", items: [
 			{ x: 650, y: 380, text: "Na ceduli stojí: <i>\" Kdo se nebojí musí do kostela! \"</i> ", type: 'text' }
 		] },
-		E: { img: `../assets/bgr/jost/jost_E.png`, pohled: "okolo kostela", forward: "vedle_kostela", },
-		W: { img: `../assets/bgr/jost/jost_W.png`, pohled: "po schodišti k zámku", forward: "frydecky_zamek", items: [
+		S: { img: `../assets/bgr/jost/jost_S.png`, pohled: "okolo kostela", forward: "vedle_kostela", },
+		N: { img: `../assets/bgr/jost/jost_N.png`, pohled: "po schodišti k zámku", forward: "frydecky_zamek", items: [
 			{ x: 300, y: 400, text: "Statný javor, jistě toho mnoho pamatuje.", type: 'text' }
 		] },
-		S: { img: `../assets/bgr/jost/jost_S.png`, pohled: "na místecké naměstí", forward: "mistecke_namesti", items: [
+		W: { img: `../assets/bgr/jost/jost_W.png`, pohled: "na místecké naměstí", forward: "mistecke_namesti", items: [
 			{ x: 200, y: 450, text: "Chodník vede do Místku", type: 'text' }
 		] },
 	},
 	vedle_kostela: {
 		name: "Vedle kostela sv. Jošta",
-		N: {
-			img: `../assets/bgr/jost_hrob/jost_hrob_N.png`, pohled: "stará škola", items: [],
+		E: {
+			img: `../assets/bgr/jost_hrob/jost_hrob_E.png`, pohled: "stará škola", items: [],
 		},
-		E: { img: `../assets/bgr/jost_hrob/jost_hrob_E.png`, pohled: "socha sv. Floriána", items: [] },
-		W: { img: `../assets/bgr/jost_hrob/jost_hrob_W.png`, pohled: "náhrobní kámen", items: [
+		S: { img: `../assets/bgr/jost_hrob/jost_hrob_S.png`, pohled: "socha sv. Floriána", items: [] },
+		N: { img: `../assets/bgr/jost_hrob/jost_hrob_N.png`, pohled: "náhrobní kámen", items: [
 			{ x: 250, y: 400, text: "Na náhrobním kameni je velký, kamenný kříž, nakreslím si ho.<br><br> <img src='assets/bgr/jost_hrob/nahrobek.png' class='inventory_img' onclick='event.stopPropagation(); showLightbox(\"assets/bgr/jost_hrob/nahrobek.png\")'> " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>kříž.</span>", itemKey: 'kriz_z_hrobu', type: 'item' }
 		] },
-		S: { img: `../assets/bgr/jost_hrob/jost_hrob_S.png`, pohled: "zpět ke vchodu do kostela", forward: "kostel_josta", items: [] },
+		W: { img: `../assets/bgr/jost_hrob/jost_hrob_W.png`, pohled: "zpět ke vchodu do kostela", forward: "kostel_josta", items: [] },
 	},
 	u_polaska: {
 		name: "U Poláška",
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=do+města`, pohled: "do města", items: [] },
-		W: {
+		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=do+města`, pohled: "do města", items: [] },
+		N: {
 			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=Polášek+dveře`, pohled: "Poláškovy dveře", items: [
 				{ x: 400, y: 350, text: "Tady pracuje Polášek. Zdá se být příjemný. Možná mu ukážete svůj nález.", type: 'npc' }
 			]
 		},
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=labyrint`, pohled: "labyrint", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=frýdecký+zámek+(z+Poláška)`, pohled: "k zámku", forward: "frydecky_zamek", items: [] },
+		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=labyrint`, pohled: "labyrint", items: [] },
+		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/554b45/d0c6ac?text=frýdecký+zámek+(z+Poláška)`, pohled: "k zámku", forward: "frydecky_zamek", items: [] },
 	},
 };
 
