@@ -165,21 +165,21 @@ const MAP = {
 	},
 	zamek_nadvori: {
 		name: "Zámek nádvoří",
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=zámecká+brána`, pohled: "cesta ke kostelu", forward: "kostel_josta", },
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=zámecká+stěna`, pohled: "zámecká stěna", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=zámecká+věž`, pohled: "zámecká věž", forward: "vez", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/5d4c42/d0c6ac?text=frýdecký+zámek+(z+nádvoří)`, pohled: "cesta před zámek", forward: "frydecky_zamek", items: [] },
+		N: { img: `../assets/bgr/zamek_nadvori/nadvori_N.png`, pohled: "zámeckou branou ke kostelu", forward: "kostel_josta", },
+		E: { img: `../assets/bgr/zamek_nadvori/nadvori_E.png`, pohled: "zámecké nádvoří", items: [] },
+		S: { img: `../assets/bgr/zamek_nadvori/nadvori_S.png`, pohled: "zámecká věž", forward: "vez", items: [] },
+		W: { img: `../assets/bgr/zamek_nadvori/nadvori_W.png`, pohled: "cesta před zámek", forward: "frydecky_zamek", items: [] },
 	},
 	vez: {
 		name: "Věž",
-		N: {
-			img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=stěna+věže`, pohled: "stěna věže", items: [
-				{ x: 400, y: 450, text: "Na jedné straně je vytesaný symbol, který připomíná pečeť. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Šlechtická pečeť</span>", itemKey: 'slechticka_pecet', type: 'item' }
+		S: {
+			img: `../assets/bgr/zamek_nadvori/vez/koruna.png`, pohled: "stěna pod věží", items: [
+				{ x: 320, y: 240, text: "Na jedné straně je vytesaný symbol, který připomíná pečeť. " + ikona_stopa + " Získali jste stopu <span class='color-lighter-red'>Šlechtická pečeť</span>", itemKey: 'slechticka_pecet', type: 'item' }
 			]
 		},
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=vedle+věže+E`, pohled: "vedle věže", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=vedle+věže+W`, pohleded: "vedle věže", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/4a3b32/d0c6ac?text=zámek+nádvoří+(z+věže)`, pohled: "zpět na nádvoří", forward: "zamek_nadvori", items: [] },
+		E: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_E.png`, pohled: "vedle věže", items: [] },
+		W: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_W.png`, pohleded: "vedle věže", items: [] },
+		N: { img: `../assets/bgr/zamek_nadvori/vez/vedle_veze_N.png`, pohled: "zpět na nádvoří", forward: "zamek_nadvori", items: [] },
 	},
 	kostel_josta: {
 		name: "Kostel sv. Jošta",
