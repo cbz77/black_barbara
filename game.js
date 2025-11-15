@@ -19,10 +19,10 @@ const MAP = {
 
 	zacatek_cesty: {
 		name: "Začátek cesty",
-		N: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les+N`, pohled: "les N", items: [] },
-		E: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=k+lesní+křižovatce`, pohled: "k lesní křižovatce", forward: "lesni_krizovatka", items: [] },
-		W: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=zpět+domů`, pohled: "zpět domů", items: [] },
-		S: { img: `https://placehold.co/${VIEWPORT_WIDTH}x${VIEWPORT_HEIGHT}/363025/d0c6ac?text=les+S`, pohled: "les S", forward: "lesni_krizovatka", items: [] },
+		N: { img: `../assets/bgr/zacatek/zacatek_N.png`, pohled: "stromy", items: [] },
+		E: { img: `../assets/bgr/zacatek/zacatek_E.png`, pohled: "k lesní křižovatce", forward: "lesni_krizovatka", items: [] },
+		W: { img: `../assets/bgr/zacatek/zacatek_W.png`, pohled: "zpátky", items: [] },
+		S: { img: `../assets/bgr/zacatek/zacatek_S.png`, pohled: "turistický ukazatel", forward: "lesni_krizovatka", items: [] },
 	},
 
 	lesni_krizovatka: {
@@ -625,8 +625,8 @@ function updateView() {
 			forwardButton.textContent = 'Vpřed';
 		} else {
 			forwardButton.disabled = true;
-			forwardButton.title = "Zde není žádná cesta. Musíte se otočit.";
-			forwardButton.textContent = 'Blokováno';
+			forwardButton.title = "Dál jít nechci.";
+			forwardButton.textContent = 'Vpřed';
 		}
 
 		// 5. Vykreslení Hotspotů a Inventáře

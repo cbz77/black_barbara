@@ -103,7 +103,7 @@ h1 {
 .pohled-label {
     position: absolute;
     padding: 8px 15px;
-    background-color: rgba(30, 25, 20, 0.7);
+    background-color: rgba(30, 25, 20, 0.85);
     color: #aa9c78;
     font-size: 0.9em;
     border: 1px solid #3d3229;
